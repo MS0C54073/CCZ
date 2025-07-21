@@ -1,3 +1,6 @@
+
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,7 +11,13 @@ import { jobFilters } from "@/lib/data";
 import { Search } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
-export function JobFilters() {
+interface JobFiltersProps {
+  salaryRange: [number, number];
+  onSalaryRangeChange: (value: [number, number]) => void;
+}
+
+
+export function JobFilters({ salaryRange, onSalaryRangeChange }: JobFiltersProps) {
   return (
     <Card className="sticky top-20">
       <CardHeader>
@@ -42,14 +51,15 @@ export function JobFilters() {
         <div className="space-y-4">
           <Label>Salary Range (ZMW)</Label>
           <Slider
-            defaultValue={[5000, 25000]}
+            value={salaryRange}
+            onValueChange={onSalaryRangeChange}
             max={50000}
             step={1000}
             className="my-4"
           />
           <div className="flex justify-between text-sm text-muted-foreground">
-            <span>ZMW 5k</span>
-            <span>ZMW 25k</span>
+            <span>ZMW {salaryRange[0].toLocaleString()}k</span>
+            <span>ZMW {salaryRange[1].toLocaleString()}k</span>
           </div>
         </div>
         <div className="space-y-2">
