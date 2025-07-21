@@ -3,6 +3,18 @@ import { BarChart, Briefcase, DollarSign, MapPin, Users, TrendingUp } from 'luci
 export const jobFilters = {
   jobType: ['Full-time', 'Part-time', 'Contract', 'Internship', 'Volunteer', 'Government'],
   provinces: ['Lusaka', 'Copperbelt', 'Central', 'Eastern', 'Luapula', 'Muchinga', 'Northern', 'North-Western', 'Southern', 'Western'],
+  locations: {
+    'Lusaka': ['Lusaka', 'Chilanga', 'Chongwe', 'Kafue', 'Luangwa', 'Rufunsa'],
+    'Copperbelt': ['Ndola', 'Kitwe', 'Chingola', 'Mufulira', 'Luanshya', 'Kalulushi', 'Chililabombwe', 'Lufwanyama', 'Mpongwe', 'Masaiti'],
+    'Central': ['Kabwe', 'Serenje', 'Mkushi', 'Chibombo', 'Mumbwa', 'Kapiri Mposhi', 'Itezhi-Tezhi', 'Chisamba', 'Luano', 'Ngabwe'],
+    'Eastern': ['Chipata', 'Lundazi', 'Petauke', 'Katete', 'Nyimba', 'Mambwe', 'Sinda', 'Chadiza', 'Vubwi'],
+    'Luapula': ['Mansa', 'Nchelenge', 'Kawambwa', 'Samfya', 'Mwense', 'Chienge', 'Milenge', 'Lunga', 'Chipili', 'Chembe'],
+    'Muchinga': ['Chinsali', 'Isoka', 'Mpika', 'Nakonde', 'Mafinga', 'Shiwang\'andu', 'Kanchibiya', 'Lavushimanda'],
+    'Northern': ['Kasama', 'Mbala', 'Mporokoso', 'Luwingu', 'Mungwi', 'Kaputa', 'Nsama', 'Lupososhi', 'Senga Hill'],
+    'North-Western': ['Solwezi', 'Mwinilunga', 'Kasempa', 'Zambezi', 'Kabompo', 'Ikelenge', 'Chavuma', 'Manyinga', 'Mushindamo'],
+    'Southern': ['Livingstone', 'Choma', 'Mazabuka', 'Monze', 'Siavonga', 'Gwembe', 'Kalomo', 'Namwala', 'Itezhi-Tezhi', 'Kazungula', 'Pemba', 'Zimba', 'Chikankata'],
+    'Western': ['Mongu', 'Kaoma', 'Sesheke', 'Senanga', 'Kalabo', 'Lukulu', 'Shang\'ombo', 'Sioma', 'Nkeyema', 'Mitete', 'Mwandi', 'Nalolo'],
+  } as Record<string, string[]>,
 };
 
 export const jobs = [
@@ -292,3 +304,5 @@ export const analyticsData = {
         { month: 'Jun', applications: 112 },
     ]
 };
+
+    

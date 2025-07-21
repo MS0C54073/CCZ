@@ -9,6 +9,8 @@ import { Slider } from "@/components/ui/slider";
 import { jobFilters } from "@/lib/data";
 import { Search } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Button } from "../ui/button";
+import { useEffect } from "react";
 
 interface JobFiltersProps {
   keyword: string;
@@ -19,6 +21,7 @@ interface JobFiltersProps {
   onProvinceChange: (province: string) => void;
   city: string;
   onCityChange: (city: string) => void;
+  onReset: () => void;
 }
 
 
@@ -27,11 +30,22 @@ export function JobFilters({
   salaryRange, onSalaryRangeChange,
   province, onProvinceChange,
   city, onCityChange,
+  onReset
 }: JobFiltersProps) {
+
+  const handleProvinceChange = (newProvince: string) => {
+    onProvinceChange(newProvince);
+    onCityChange(''); // Reset city when province changes
+  };
+
+  const provinces = Object.keys(jobFilters.locations);
+  const cities = province ? jobFilters.locations[province] || [] : [];
+
   return (
     <Card className="sticky top-20">
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Filter Jobs</CardTitle>
+        <Button variant="link" onClick={onReset} className="p-0 h-auto">Reset</Button>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-2">
@@ -48,26 +62,30 @@ export function JobFilters({
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="location">Province</Label>
-           <Select value={province} onValueChange={onProvinceChange}>
-              <SelectTrigger>
+          <Label htmlFor="province">Province</Label>
+           <Select value={province} onValueChange={handleProvinceChange}>
+              <SelectTrigger id="province">
                 <SelectValue placeholder="All Provinces" />
               </SelectTrigger>
               <SelectContent>
-                {jobFilters.provinces.map((province) => (
-                    <SelectItem key={province} value={province.toLowerCase()}>{province}</SelectItem>
+                {provinces.map((prov) => (
+                    <SelectItem key={prov} value={prov.toLowerCase()}>{prov}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="location">City / District</Label>
-          <Input 
-            id="location" 
-            placeholder="e.g. Lusaka, Ndola, Kitwe"
-            value={city}
-            onChange={(e) => onCityChange(e.target.value)} 
-          />
+          <Label htmlFor="city">City / District</Label>
+          <Select value={city} onValueChange={onCityChange} disabled={!province}>
+              <SelectTrigger id="city">
+                <SelectValue placeholder="All Cities" />
+              </SelectTrigger>
+              <SelectContent>
+                {cities.map((c) => (
+                    <SelectItem key={c} value={c.toLowerCase()}>{c}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
         </div>
         <div className="space-y-4">
           <Label>Salary Range (ZMW)</Label>
@@ -100,3 +118,5 @@ export function JobFilters({
     </Card>
   );
 }
+
+    

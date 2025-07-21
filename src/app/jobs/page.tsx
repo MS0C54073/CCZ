@@ -1,19 +1,21 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { JobFilters } from "@/components/jobs/job-filters";
 import { JobCard } from "@/components/jobs/job-card";
 import { jobs } from "@/lib/data";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
+const initialSalaryRange: [number, number] = [0, 100000];
+
 export default function JobsPage() {
-  const [salaryRange, setSalaryRange] = useState<[number, number]>([0, 100000]);
+  const [salaryRange, setSalaryRange] = useState<[number, number]>(initialSalaryRange);
   const [keyword, setKeyword] = useState('');
   const [province, setProvince] = useState('');
   const [city, setCity] = useState('');
 
-  const filteredJobs = jobs.filter(job => {
+  const filteredJobs = useMemo(() => jobs.filter(job => {
     // Salary filtering
     const salaryString = job.salary.replace(/ZMW|,|\s/g, '').split('-')[0];
     const jobSalary = parseInt(salaryString, 10);
@@ -30,7 +32,14 @@ export default function JobsPage() {
     const cityMatch = city.trim() === '' || job.location.toLowerCase().includes(city.toLowerCase());
 
     return salaryMatch && keywordMatch && provinceMatch && cityMatch;
-  });
+  }), [salaryRange, keyword, province, city]);
+
+  const resetFilters = () => {
+    setKeyword('');
+    setProvince('');
+    setCity('');
+    setSalaryRange(initialSalaryRange);
+  };
 
 
   return (
@@ -47,6 +56,7 @@ export default function JobsPage() {
               onProvinceChange={setProvince}
               city={city}
               onCityChange={setCity}
+              onReset={resetFilters}
             />
           </aside>
           <main className="md:col-span-3">
@@ -85,3 +95,5 @@ export default function JobsPage() {
     </div>
   );
 }
+
+    
