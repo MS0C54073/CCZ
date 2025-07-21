@@ -10,6 +10,8 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 export default function JobsPage() {
   const [salaryRange, setSalaryRange] = useState<[number, number]>([0, 100000]);
   const [keyword, setKeyword] = useState('');
+  const [province, setProvince] = useState('');
+  const [city, setCity] = useState('');
 
   const filteredJobs = jobs.filter(job => {
     // Salary filtering
@@ -22,8 +24,12 @@ export default function JobsPage() {
       job.title.toLowerCase().includes(keyword.toLowerCase()) ||
       job.company.toLowerCase().includes(keyword.toLowerCase()) ||
       job.description.toLowerCase().includes(keyword.toLowerCase());
+      
+    // Location filtering
+    const provinceMatch = province.trim() === '' || job.location.toLowerCase().includes(province.toLowerCase());
+    const cityMatch = city.trim() === '' || job.location.toLowerCase().includes(city.toLowerCase());
 
-    return salaryMatch && keywordMatch;
+    return salaryMatch && keywordMatch && provinceMatch && cityMatch;
   });
 
 
@@ -37,6 +43,10 @@ export default function JobsPage() {
               onKeywordChange={setKeyword}
               salaryRange={salaryRange}
               onSalaryRangeChange={setSalaryRange}
+              province={province}
+              onProvinceChange={setProvince}
+              city={city}
+              onCityChange={setCity}
             />
           </aside>
           <main className="md:col-span-3">

@@ -15,10 +15,19 @@ interface JobFiltersProps {
   onKeywordChange: (keyword: string) => void;
   salaryRange: [number, number];
   onSalaryRangeChange: (value: [number, number]) => void;
+  province: string;
+  onProvinceChange: (province: string) => void;
+  city: string;
+  onCityChange: (city: string) => void;
 }
 
 
-export function JobFilters({ keyword, onKeywordChange, salaryRange, onSalaryRangeChange }: JobFiltersProps) {
+export function JobFilters({ 
+  keyword, onKeywordChange, 
+  salaryRange, onSalaryRangeChange,
+  province, onProvinceChange,
+  city, onCityChange,
+}: JobFiltersProps) {
   return (
     <Card className="sticky top-20">
       <CardHeader>
@@ -40,11 +49,12 @@ export function JobFilters({ keyword, onKeywordChange, salaryRange, onSalaryRang
         </div>
         <div className="space-y-2">
           <Label htmlFor="location">Province</Label>
-           <Select>
+           <Select value={province} onValueChange={onProvinceChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Select a province" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="">All Provinces</SelectItem>
                 {jobFilters.provinces.map((province) => (
                     <SelectItem key={province} value={province.toLowerCase()}>{province}</SelectItem>
                 ))}
@@ -53,7 +63,12 @@ export function JobFilters({ keyword, onKeywordChange, salaryRange, onSalaryRang
         </div>
         <div className="space-y-2">
           <Label htmlFor="location">City / District</Label>
-          <Input id="location" placeholder="e.g. Lusaka, Ndola, Kitwe" />
+          <Input 
+            id="location" 
+            placeholder="e.g. Lusaka, Ndola, Kitwe"
+            value={city}
+            onChange={(e) => onCityChange(e.target.value)} 
+          />
         </div>
         <div className="space-y-4">
           <Label>Salary Range (ZMW)</Label>
