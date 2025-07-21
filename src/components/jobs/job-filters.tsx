@@ -6,6 +6,7 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { jobFilters } from "@/lib/data";
 import { Search } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 export function JobFilters() {
   return (
@@ -22,20 +23,33 @@ export function JobFilters() {
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="location">Location</Label>
-          <Input id="location" placeholder="City, state, or remote" />
+          <Label htmlFor="location">Province</Label>
+           <Select>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a province" />
+              </SelectTrigger>
+              <SelectContent>
+                {jobFilters.provinces.map((province) => (
+                    <SelectItem key={province} value={province.toLowerCase()}>{province}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="location">City / District</Label>
+          <Input id="location" placeholder="e.g. Lusaka, Ndola, Kitwe" />
         </div>
         <div className="space-y-4">
-          <Label>Salary Range</Label>
+          <Label>Salary Range (ZMW)</Label>
           <Slider
-            defaultValue={[50000, 150000]}
-            max={250000}
+            defaultValue={[5000, 25000]}
+            max={50000}
             step={1000}
             className="my-4"
           />
           <div className="flex justify-between text-sm text-muted-foreground">
-            <span>$50k</span>
-            <span>$150k</span>
+            <span>ZMW 5k</span>
+            <span>ZMW 25k</span>
           </div>
         </div>
         <div className="space-y-2">
