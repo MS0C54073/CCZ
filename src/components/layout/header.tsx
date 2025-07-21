@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Bell, MessageSquare } from 'lucide-react';
 import { AuthWidget } from './auth-widget';
+import { ThemeToggle } from './theme-toggle';
 
 export function Header() {
   const navLinks = [
@@ -67,6 +68,7 @@ export function Header() {
           <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
             <MessageSquare className="h-5 w-5" />
           </Button>
+          <ThemeToggle />
           <Button asChild className="hidden sm:inline-flex bg-accent text-accent-foreground hover:bg-accent/90">
             <Link href="/post-job">Post a Job</Link>
           </Button>
