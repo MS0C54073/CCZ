@@ -51,10 +51,9 @@ export function JobFilters({
           <Label htmlFor="location">Province</Label>
            <Select value={province} onValueChange={onProvinceChange}>
               <SelectTrigger>
-                <SelectValue placeholder="Select a province" />
+                <SelectValue placeholder="All Provinces" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Provinces</SelectItem>
                 {jobFilters.provinces.map((province) => (
                     <SelectItem key={province} value={province.toLowerCase()}>{province}</SelectItem>
                 ))}
