@@ -6,7 +6,7 @@ import { Compass } from 'lucide-react';
 import { AuthProvider } from '@/hooks/use-auth';
 
 export const metadata: Metadata = {
-  title: 'Career Compass Zambia',
+  title: 'Career Compass Zambia (CCZ)',
   description: 'Your guide to the Zambian professional world.',
 };
 
@@ -49,7 +49,7 @@ function Footer() {
           </span>
         </div>
         <p className="text-sm">
-          &copy; {new Date().getFullYear()} Career Compass Zambia. All rights reserved.
+          &copy; {new Date().getFullYear()} Career Compass Zambia (CCZ). All rights reserved.
         </p>
       </div>
     </footer>

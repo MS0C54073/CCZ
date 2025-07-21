@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Compass, Bell, MessageSquare } from 'lucide-react';
+import { Menu, Bell, MessageSquare } from 'lucide-react';
 import { AuthWidget } from './auth-widget';
 
 export function Header() {
@@ -16,9 +16,8 @@ export function Header() {
       <div className="container flex h-14 items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Compass className="h-6 w-6 text-primary" />
-            <span className="hidden font-bold sm:inline-block">
-              Career Compass
+            <span className="font-bold sm:inline-block text-lg">
+              CCZ
             </span>
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
@@ -44,8 +43,7 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="left">
               <Link href="/" className="mr-6 flex items-center space-x-2 mb-6">
-                <Compass className="h-6 w-6 text-primary" />
-                <span className="font-bold">Career Compass</span>
+                <span className="font-bold text-lg">CCZ</span>
               </Link>
               <nav className="flex flex-col space-y-4">
                 {navLinks.map((link) => (
