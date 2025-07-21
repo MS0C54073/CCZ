@@ -1,9 +1,14 @@
+
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Search, Briefcase, Building, MapPin, UserPlus, FileText, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import type { FormEvent } from 'react';
 
 export default function LandingPage() {
   return (
@@ -19,6 +24,19 @@ export default function LandingPage() {
 }
 
 function HeroSection() {
+  const router = useRouter();
+
+  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const query = formData.get('query') as string;
+    if (query) {
+      router.push(`/jobs?q=${encodeURIComponent(query)}`);
+    } else {
+      router.push('/jobs');
+    }
+  };
+  
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-white dark:bg-gray-900">
       <div className="container px-4 md:px-6">
@@ -33,9 +51,10 @@ function HeroSection() {
               </p>
             </div>
             <div className="w-full max-w-sm space-y-2">
-              <form className="flex space-x-2">
+              <form onSubmit={handleSearch} className="flex space-x-2">
                 <Input
                   type="text"
+                  name="query"
                   placeholder="Job title, keyword, or company"
                   className="max-w-lg flex-1"
                 />
