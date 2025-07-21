@@ -52,7 +52,7 @@ function Footer() {
       <div className="container py-8 text-center text-muted-foreground">
         <div className="flex justify-center items-center mb-4">
           <span className="ml-2 text-lg font-bold text-foreground">
-            MuzoInTech (MIT)
+            Developed by MuzoInTech (MIT)
           </span>
         </div>
         <p className="text-sm">
