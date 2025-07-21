@@ -8,14 +8,22 @@ import { jobs } from "@/lib/data";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 export default function JobsPage() {
-  const [salaryRange, setSalaryRange] = useState<[number, number]>([5000, 25000]);
+  const [salaryRange, setSalaryRange] = useState<[number, number]>([0, 100000]);
+  const [keyword, setKeyword] = useState('');
 
   const filteredJobs = jobs.filter(job => {
-    // Basic salary parsing - this can be improved for more robust parsing
+    // Salary filtering
     const salaryString = job.salary.replace(/ZMW|,|\s/g, '').split('-')[0];
     const jobSalary = parseInt(salaryString, 10);
-    if (isNaN(jobSalary)) return true; // Keep job if salary is not a number
-    return jobSalary >= salaryRange[0] && jobSalary <= salaryRange[1];
+    const salaryMatch = isNaN(jobSalary) || (jobSalary >= salaryRange[0] && jobSalary <= salaryRange[1]);
+
+    // Keyword filtering
+    const keywordMatch = keyword.trim() === '' ||
+      job.title.toLowerCase().includes(keyword.toLowerCase()) ||
+      job.company.toLowerCase().includes(keyword.toLowerCase()) ||
+      job.description.toLowerCase().includes(keyword.toLowerCase());
+
+    return salaryMatch && keywordMatch;
   });
 
 
@@ -24,7 +32,9 @@ export default function JobsPage() {
       <div className="container mx-auto py-8 px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <aside className="md:col-span-1">
-            <JobFilters 
+            <JobFilters
+              keyword={keyword}
+              onKeywordChange={setKeyword}
               salaryRange={salaryRange}
               onSalaryRangeChange={setSalaryRange}
             />
