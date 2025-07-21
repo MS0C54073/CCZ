@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -23,14 +24,14 @@ import { Loader2, Wand2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { jobFilters } from "@/lib/data";
+import { Slider } from "../ui/slider";
 
 const postJobSchema = z.object({
   title: z.string().min(5, "Job title must be at least 5 characters."),
   company: z.string().min(2, "Company name is required."),
   province: z.string().min(2, "Province is required."),
   city: z.string().min(2, "City/District is required."),
-  salaryMin: z.coerce.number().min(0),
-  salaryMax: z.coerce.number().min(0),
+  salaryRange: z.array(z.number()).min(2).max(2),
   description: z.string().min(50, "Description must be at least 50 characters."),
   skills: z.array(z.string()),
 });
@@ -45,11 +46,13 @@ export function PostJobForm() {
     resolver: zodResolver(postJobSchema),
     defaultValues: {
       skills: [],
+      salaryRange: [5000, 25000],
     },
     mode: "onChange",
   });
   
   const jobDescription = form.watch("description");
+  const salaryRange = form.watch("salaryRange");
 
   const handleSuggestSkills = async () => {
     if (!jobDescription || jobDescription.length < 50) {
@@ -63,7 +66,9 @@ export function PostJobForm() {
     setIsSuggesting(true);
     try {
       const result = await suggestSkillTags({ jobDescription });
-      form.setValue('skills', result.suggestedSkills);
+      const currentSkills = form.getValues('skills');
+      const newSkills = Array.from(new Set([...currentSkills, ...result.suggestedSkills]));
+      form.setValue('skills', newSkills, { shouldValidate: true });
       toast({
         title: "Skills Suggested!",
         description: "AI has suggested skills based on your description.",
@@ -98,7 +103,7 @@ export function PostJobForm() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField control={form.control} name="title" render={({ field }) => ( <FormItem><FormLabel>Job Title</FormLabel><FormControl><Input placeholder="e.g., Secondary School Teacher" {...field} /></FormControl><FormMessage /></FormItem> )} />
             <FormField control={form.control} name="company" render={({ field }) => ( <FormItem><FormLabel>Company Name</FormLabel><FormControl><Input placeholder="e.g., Ministry of Education" {...field} /></FormControl><FormMessage /></FormItem> )} />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField control={form.control} name="province" render={({ field }) => ( 
                 <FormItem>
                   <FormLabel>Province</FormLabel>
@@ -119,10 +124,30 @@ export function PostJobForm() {
               )} />
               <FormField control={form.control} name="city" render={({ field }) => ( <FormItem><FormLabel>City/District</FormLabel><FormControl><Input placeholder="e.g., Lusaka" {...field} /></FormControl><FormMessage /></FormItem> )} />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <FormField control={form.control} name="salaryMin" render={({ field }) => ( <FormItem><FormLabel>Minimum Salary (ZMW)</FormLabel><FormControl><Input type="number" placeholder="e.g., 8000" {...field} /></FormControl><FormMessage /></FormItem> )} />
-              <FormField control={form.control} name="salaryMax" render={({ field }) => ( <FormItem><FormLabel>Maximum Salary (ZMW)</FormLabel><FormControl><Input type="number" placeholder="e.g., 12000" {...field} /></FormControl><FormMessage /></FormItem> )} />
-            </div>
+            
+            <FormField
+              control={form.control}
+              name="salaryRange"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Salary Range (ZMW)</FormLabel>
+                  <FormControl>
+                    <Slider
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      max={100000}
+                      step={1000}
+                    />
+                  </FormControl>
+                  <div className="flex justify-between text-sm text-muted-foreground">
+                    <span>ZMW {salaryRange[0].toLocaleString()}</span>
+                    <span>ZMW {salaryRange[1].toLocaleString()}</span>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField control={form.control} name="description" render={({ field }) => (
                 <FormItem>
                   <FormLabel>Job Description</FormLabel>
@@ -134,9 +159,9 @@ export function PostJobForm() {
               )}
             />
             <FormItem>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center mb-2">
                 <FormLabel>Skills</FormLabel>
-                <Button type="button" variant="outline" size="sm" onClick={handleSuggestSkills} disabled={isSuggesting || !jobDescription}>
+                <Button type="button" variant="outline" size="sm" onClick={handleSuggestSkills} disabled={isSuggesting || (jobDescription?.length ?? 0) < 50}>
                   {isSuggesting ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   ) : (
@@ -146,7 +171,7 @@ export function PostJobForm() {
                 </Button>
               </div>
               <FormControl>
-                <div className="p-4 border rounded-md min-h-[4rem] flex flex-wrap gap-2">
+                 <div className="p-4 border rounded-md min-h-[4rem] flex flex-wrap gap-2">
                   {form.watch('skills').map((skill, index) => (
                     <Badge key={index} variant="secondary">
                       {skill}
