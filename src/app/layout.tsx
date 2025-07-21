@@ -6,8 +6,8 @@ import { Compass } from 'lucide-react';
 import { AuthProvider } from '@/hooks/use-auth';
 
 export const metadata: Metadata = {
-  title: 'Career Compass',
-  description: 'Your guide to the professional world.',
+  title: 'Career Compass Zambia',
+  description: 'Your guide to the Zambian professional world.',
 };
 
 export default function RootLayout({
@@ -44,13 +44,12 @@ function Footer() {
     <footer className="bg-white dark:bg-card">
       <div className="container py-8 text-center text-muted-foreground">
         <div className="flex justify-center items-center mb-4">
-          <Compass className="h-6 w-6 text-primary" />
           <span className="ml-2 text-lg font-bold text-foreground">
-            Career Compass
+            MuzoInTech (MIT)
           </span>
         </div>
         <p className="text-sm">
-          &copy; {new Date().getFullYear()} Career Compass. All rights reserved.
+          &copy; {new Date().getFullYear()} Career Compass Zambia. All rights reserved.
         </p>
       </div>
     </footer>

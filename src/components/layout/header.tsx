@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Compass } from 'lucide-react';
+import { Menu, Compass, Bell, MessageSquare } from 'lucide-react';
 import { AuthWidget } from './auth-widget';
 
 export function Header() {
@@ -63,6 +63,12 @@ export function Header() {
         </div>
 
         <div className="flex flex-1 items-center justify-end space-x-2">
+          <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
+            <Bell className="h-5 w-5" />
+          </Button>
+          <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
+            <MessageSquare className="h-5 w-5" />
+          </Button>
           <Button asChild className="hidden sm:inline-flex bg-accent text-accent-foreground hover:bg-accent/90">
             <Link href="/post-job">Post a Job</Link>
           </Button>
