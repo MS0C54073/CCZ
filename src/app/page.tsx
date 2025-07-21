@@ -48,7 +48,7 @@ function HeroSection() {
           </div>
           <Image
             src="https://placehold.co/600x400.png"
-            data-ai-hint="people working office"
+            data-ai-hint="Zambian professionals"
             width="600"
             height="400"
             alt="Hero"
