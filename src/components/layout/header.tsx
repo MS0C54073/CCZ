@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Compass } from 'lucide-react';
+import { AuthWidget } from './auth-widget';
 
 export function Header() {
   const navLinks = [
@@ -65,8 +66,7 @@ export function Header() {
           <Button asChild className="hidden sm:inline-flex bg-accent text-accent-foreground hover:bg-accent/90">
             <Link href="/post-job">Post a Job</Link>
           </Button>
-          <Button variant="outline">Login</Button>
-          <Button>Sign Up</Button>
+          <AuthWidget />
         </div>
       </div>
     </header>
