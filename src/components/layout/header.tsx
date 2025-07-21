@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -19,8 +20,8 @@ export function Header() {
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <span className="font-bold sm:inline-block text-lg">
               <span className="text-red-600">C</span>
-              <span className="text-foreground">C</span>
-              <span className="text-orange-500">Z</span>
+              <span className="text-orange-500">C</span>
+              <span className="text-green-600">Z</span>
             </span>
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
@@ -48,8 +49,8 @@ export function Header() {
               <Link href="/" className="mr-6 flex items-center space-x-2 mb-6">
                 <span className="font-bold text-lg">
                   <span className="text-red-600">C</span>
-                  <span className="text-foreground">C</span>
-                  <span className="text-orange-500">Z</span>
+                  <span className="text-orange-500">C</span>
+                  <span className="text-green-600">Z</span>
                 </span>
               </Link>
               <nav className="flex flex-col space-y-4">
