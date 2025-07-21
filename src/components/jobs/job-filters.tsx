@@ -10,7 +10,6 @@ import { jobFilters } from "@/lib/data";
 import { Search } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Button } from "../ui/button";
-import { useEffect } from "react";
 
 interface JobFiltersProps {
   keyword: string;
@@ -39,7 +38,6 @@ export function JobFilters({
   };
 
   const provinces = Object.keys(jobFilters.locations);
-  const cities = province ? jobFilters.locations[province] || [] : [];
 
   return (
     <Card className="sticky top-20">
@@ -76,16 +74,12 @@ export function JobFilters({
         </div>
         <div className="space-y-2">
           <Label htmlFor="city">City / District</Label>
-          <Select value={city} onValueChange={onCityChange} disabled={!province}>
-              <SelectTrigger id="city">
-                <SelectValue placeholder="All Cities" />
-              </SelectTrigger>
-              <SelectContent>
-                {cities.map((c) => (
-                    <SelectItem key={c} value={c.toLowerCase()}>{c}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <Input
+            id="city"
+            placeholder="e.g., Lusaka"
+            value={city}
+            onChange={(e) => onCityChange(e.target.value)}
+          />
         </div>
         <div className="space-y-4">
           <Label>Salary Range (ZMW)</Label>
@@ -118,5 +112,3 @@ export function JobFilters({
     </Card>
   );
 }
-
-    
