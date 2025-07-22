@@ -44,7 +44,7 @@ export default function RootLayout({
 
 function Footer() {
   return (
-    <footer className="bg-white dark:bg-card">
+    <footer className="bg-card text-card-foreground">
       <div className="container py-8 text-center text-muted-foreground">
         <div className="flex justify-center items-center mb-4">
           <span className="ml-2 text-lg font-bold">
