@@ -33,6 +33,23 @@ Smart, local job discovery
 
 This isn't just for me — it’s for everyone in Zambia who’s ever struggled with resume fatigue or inaccessible job systems.
 
+---
+
+### 🚧 **Project Status: Demo Prototype** 🚧
+
+**Please Note:** This application is currently a demonstration prototype. Many features are still under active development. The primary goal is to showcase the core functionalities and user interface.
+
+**What's working right now:**
+*   **User Authentication:** Sign up and log in with Email/Password, Google, and LinkedIn.
+*   **Job Discovery:** Browse and search for jobs with filters for keywords, location (province/city), and salary. Jobs are sorted by the most recent posting date and listings older than 30 days are automatically removed.
+*   **Job Posting:** Employers can fill out a form to post a new job, including company logo uploads. The form uses AI to suggest relevant skills based on the job description.
+*   **Profile Management:** Job seekers can create and edit a detailed professional profile, including personal information, work experience, education, skills, certifications, and driver's license details. An AI-powered summary can be generated based on the profile content.
+*   **Dashboards:**
+    *   **Job Seeker:** View application history and track profile completion percentage with dynamic suggestions for improvement.
+    *   **Recruiter:** View and manage posted jobs, including an option to delete listings.
+
+---
+
 🚀 Features
 For Job Seekers
 Create a professional profile once, use it for every job
