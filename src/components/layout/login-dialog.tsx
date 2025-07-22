@@ -24,7 +24,7 @@ interface LoginDialogProps {
 export function LoginDialog({ isOpen, onOpenChange }: LoginDialogProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { signInWithGoogle, signInWithEmail, signUpWithEmail, loading } = useAuth();
+  const { signInWithGoogle, signInWithLinkedIn, signInWithEmail, signUpWithEmail, loading } = useAuth();
   const { toast } = useToast();
 
 
@@ -35,6 +35,16 @@ export function LoginDialog({ isOpen, onOpenChange }: LoginDialogProps) {
       toast({ title: "Success", description: "Logged in with Google." });
     } catch (e) {
       toast({ variant: 'destructive', title: "Error", description: "Failed to sign in with Google."});
+    }
+  };
+
+  const handleLinkedInSignIn = async () => {
+    try {
+      await signInWithLinkedIn();
+      onOpenChange(false);
+      toast({ title: "Success", description: "Logged in with LinkedIn." });
+    } catch (e) {
+      toast({ variant: 'destructive', title: "Error", description: "Failed to sign in with LinkedIn."});
     }
   };
 
@@ -66,6 +76,12 @@ export function LoginDialog({ isOpen, onOpenChange }: LoginDialogProps) {
     </svg>
   );
 
+  const LinkedInIcon = () => (
+    <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="linkedin-in" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <path fill="currentColor" d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 53.79-54.3c29.7 0 53.79 24.2 53.79 54.3a53.79 53.79 0 0 1-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"></path>
+    </svg>
+  );
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
@@ -75,9 +91,12 @@ export function LoginDialog({ isOpen, onOpenChange }: LoginDialogProps) {
             Sign in or create an account to continue.
           </DialogDescription>
         </DialogHeader>
-        <div className="py-4">
+        <div className="py-4 space-y-2">
           <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={loading}>
             {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <><GoogleIcon /> Sign in with Google</>}
+          </Button>
+          <Button variant="outline" className="w-full" onClick={handleLinkedInSignIn} disabled={loading}>
+            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <><LinkedInIcon /> Sign in with LinkedIn</>}
           </Button>
         </div>
         <div className="relative">

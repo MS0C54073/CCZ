@@ -13,6 +13,7 @@ import {
   onAuthStateChanged,
   User,
   GoogleAuthProvider,
+  OAuthProvider,
   signInWithPopup,
   signOut as firebaseSignOut,
   createUserWithEmailAndPassword,
@@ -24,6 +25,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
+  signInWithLinkedIn: () => Promise<void>;
   signInWithEmail: (email: string, pass: string) => Promise<void>;
   signUpWithEmail: (email: string, pass: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -34,6 +36,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
+const linkedInProvider = new OAuthProvider('linkedin.com');
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -53,6 +56,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setError(null);
     try {
       await signInWithPopup(auth, googleProvider);
+    } catch (e: any) {
+      setError(e.message);
+      throw e;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const signInWithLinkedIn = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await signInWithPopup(auth, linkedInProvider);
     } catch (e: any) {
       setError(e.message);
       throw e;
@@ -103,6 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     user,
     loading,
     signInWithGoogle,
+    signInWithLinkedIn,
     signInWithEmail,
     signUpWithEmail,
     signOut,
