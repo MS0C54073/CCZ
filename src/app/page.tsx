@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Search, Briefcase, Building, MapPin, UserPlus, FileText, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -103,11 +103,11 @@ function NewJobsSection() {
                     <Briefcase className="w-6 h-6 text-primary" /> {job.title}
                   </div>
                 </CardTitle>
-                <CardDescription>
+                <div className="text-sm text-muted-foreground">
                   <div className="flex items-center gap-2 pt-2">
                     <Building className="w-4 h-4" /> {job.company}
                   </div>
-                </CardDescription>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
