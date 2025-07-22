@@ -24,7 +24,7 @@ interface LoginDialogProps {
 export function LoginDialog({ isOpen, onOpenChange }: LoginDialogProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { signInWithGoogle, signInWithEmail, signUpWithEmail, loading, error } = useAuth();
+  const { signInWithGoogle, signInWithEmail, signUpWithEmail, loading } = useAuth();
   const { toast } = useToast();
 
 
@@ -70,14 +70,14 @@ export function LoginDialog({ isOpen, onOpenChange }: LoginDialogProps) {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Welcome to Career Compass</DialogTitle>
+          <DialogTitle>Welcome to Career Connect Zambia</DialogTitle>
           <DialogDescription>
             Sign in or create an account to continue.
           </DialogDescription>
         </DialogHeader>
         <div className="py-4">
           <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={loading}>
-            {loading ? <Loader2 className="animate-spin" /> : <><GoogleIcon /> Sign in with Google</>}
+            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <><GoogleIcon /> Sign in with Google</>}
           </Button>
         </div>
         <div className="relative">
