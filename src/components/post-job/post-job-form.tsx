@@ -63,7 +63,6 @@ export function PostJobForm() {
   });
   
   const jobDescription = form.watch("description");
-  const salaryRange = form.watch("salaryRange");
 
   const handleSuggestSkills = async () => {
     if (!jobDescription || jobDescription.length < 50) {
@@ -205,8 +204,8 @@ export function PostJobForm() {
                     />
                   </FormControl>
                   <div className="flex justify-between text-sm text-muted-foreground">
-                    <span>ZMW {salaryRange[0].toLocaleString()}</span>
-                    <span>ZMW {salaryRange[1].toLocaleString()}</span>
+                    <span>ZMW {field.value[0].toLocaleString()}</span>
+                    <span>ZMW {field.value[1].toLocaleString()}</span>
                   </div>
                   <FormMessage />
                 </FormItem>

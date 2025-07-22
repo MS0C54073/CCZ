@@ -11,19 +11,9 @@ import { formatDistanceToNow } from 'date-fns';
 import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
 import { LoginDialog } from "../layout/login-dialog";
+import { useJobs } from "@/hooks/use-jobs";
 
-type Job = {
-  id: string;
-  title: string;
-  company: string;
-  logo: string;
-  location: string;
-  salary: string;
-  type: string;
-  description: string;
-  tags: string[];
-  postedDate: string;
-};
+type Job = ReturnType<typeof useJobs>['jobs'][0];
 
 interface JobCardProps {
   job: Job;
