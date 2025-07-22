@@ -15,7 +15,7 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-[calc(100vh-3.5rem)]">
       <main className="flex-1">
         <HeroSection />
-        <FeaturedJobsSection />
+        <NewJobsSection />
         <HowItWorksSection />
         <CtaSection />
       </main>
@@ -79,12 +79,16 @@ function HeroSection() {
   );
 }
 
-function FeaturedJobsSection() {
+function NewJobsSection() {
   const newJobs = [
     { title: 'Secondary School Teacher', company: 'Ministry of Education', location: 'Lusaka, Lusaka' },
     { title: 'Registered Nurse', company: 'Ndola Central Hospital', location: 'Ndola, Copperbelt' },
     { title: 'Mining Engineer', company: 'First Quantum Minerals (FQM)', location: 'Solwezi, North-Western' },
     { title: 'Project Manager (NGO)', company: 'WWF Zambia', location: 'Mongu, Western' },
+    { title: 'ICT Officer', company: 'Zambia Revenue Authority', location: 'Kitwe, Copperbelt'},
+    { title: 'Construction Foreman', company: 'Zhong-Gan Engineering', location: 'Lusaka, Lusaka'},
+    { title: 'Accountant', company: 'Airtel Zambia', location: 'Lusaka, (Hybrid)'},
+    { title: 'Agronomist', company: 'Zambeef Products PLC', location: 'Chisamba, Central'},
   ];
 
   return (
@@ -167,3 +171,5 @@ function CtaSection() {
     </section>
   );
 }
+
+    
