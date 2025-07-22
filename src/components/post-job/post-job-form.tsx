@@ -29,6 +29,7 @@ import { Slider } from "../ui/slider";
 const postJobSchema = z.object({
   title: z.string().min(5, "Job title must be at least 5 characters."),
   company: z.string().min(2, "Company name is required."),
+  logo: z.any().optional(),
   province: z.string().min(2, "Province is required."),
   city: z.string().min(2, "City/District is required."),
   salaryRange: z.array(z.number()).min(2).max(2),
@@ -102,7 +103,20 @@ export function PostJobForm() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField control={form.control} name="title" render={({ field }) => ( <FormItem><FormLabel>Job Title</FormLabel><FormControl><Input placeholder="e.g., Secondary School Teacher" {...field} /></FormControl><FormMessage /></FormItem> )} />
-            <FormField control={form.control} name="company" render={({ field }) => ( <FormItem><FormLabel>Company Name</FormLabel><FormControl><Input placeholder="e.g., Ministry of Education" {...field} /></FormControl><FormMessage /></FormItem> )} />
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField control={form.control} name="company" render={({ field }) => ( <FormItem><FormLabel>Company Name</FormLabel><FormControl><Input placeholder="e.g., Ministry of Education" {...field} /></FormControl><FormMessage /></FormItem> )} />
+               <FormField control={form.control} name="logo" render={({ field }) => ( 
+                <FormItem>
+                  <FormLabel>Company Logo</FormLabel>
+                  <FormControl>
+                    <Input type="file" accept="image/*" onChange={(e) => field.onChange(e.target.files?.[0])} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField control={form.control} name="province" render={({ field }) => ( 
                 <FormItem>
