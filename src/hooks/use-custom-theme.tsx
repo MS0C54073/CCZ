@@ -20,14 +20,15 @@ export function CustomThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const storedTheme = localStorage.getItem('custom-theme') as Theme | null;
-    if (storedTheme && themes.includes(storedTheme)) {
-      setThemeState(storedTheme);
-    }
+    const initialTheme = storedTheme && themes.includes(storedTheme) ? storedTheme : 'black';
+    setThemeState(initialTheme);
   }, []);
 
   const setTheme = useCallback((newTheme: Theme) => {
-    setThemeState(newTheme);
-    localStorage.setItem('custom-theme', newTheme);
+    if (themes.includes(newTheme)) {
+        setThemeState(newTheme);
+        localStorage.setItem('custom-theme', newTheme);
+    }
   }, []);
 
   useEffect(() => {
