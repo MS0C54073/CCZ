@@ -61,6 +61,72 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  .theme-green {
+    --background: 140 50% 10%;
+    --foreground: 140 10% 90%;
+    --card: 140 50% 12%;
+    --card-foreground: 140 10% 90%;
+    --popover: 140 50% 12%;
+    --popover-foreground: 140 10% 90%;
+    --primary: 150 80% 45%;
+    --primary-foreground: 150 20% 98%;
+    --secondary: 140 40% 20%;
+    --secondary-foreground: 140 10% 90%;
+    --muted: 140 40% 20%;
+    --muted-foreground: 140 5% 65%;
+    --accent: 140 40% 25%;
+    --accent-foreground: 140 10% 90%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 140 40% 25%;
+    --input: 140 40% 25%;
+    --ring: 150 80% 45%;
+  }
+
+  .theme-blue {
+    --background: 220 50% 10%;
+    --foreground: 220 10% 90%;
+    --card: 220 50% 12%;
+    --card-foreground: 220 10% 90%;
+    --popover: 220 50% 12%;
+    --popover-foreground: 220 10% 90%;
+    --primary: 210 90% 55%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 40% 20%;
+    --secondary-foreground: 220 10% 90%;
+    --muted: 220 40% 20%;
+    --muted-foreground: 220 5% 65%;
+    --accent: 220 40% 25%;
+    --accent-foreground: 220 10% 90%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 40% 25%;
+    --input: 220 40% 25%;
+    --ring: 210 90% 55%;
+  }
+
+  .theme-black {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 25 95% 53%; /* Orange */
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 72% 51%; /* Red */
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 25 95% 53%; /* Orange */
+  }
 }
 
 @layer base {

@@ -4,7 +4,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/layout/header';
 import { AuthProvider } from '@/hooks/use-auth';
-import { ThemeProvider } from '@/components/layout/theme-provider';
+import { CustomThemeProvider } from '@/hooks/use-custom-theme';
 
 export const metadata: Metadata = {
   title: 'Career Compass Zambia (CCZ)',
@@ -27,12 +27,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <CustomThemeProvider>
           <AuthProvider>
             <div className="relative flex min-h-screen flex-col bg-background">
               <Header />
@@ -41,7 +36,7 @@ export default function RootLayout({
             </div>
             <Toaster />
           </AuthProvider>
-        </ThemeProvider>
+        </CustomThemeProvider>
       </body>
     </html>
   );
