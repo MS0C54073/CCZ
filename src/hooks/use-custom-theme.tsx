@@ -16,41 +16,45 @@ const CustomThemeContext = createContext<CustomThemeContextType | undefined>(und
 const themes: Theme[] = ['black', 'green', 'blue'];
 
 export function CustomThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('black');
+  const [theme, setThemeState] = useState<Theme>('black');
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem('custom-theme') as Theme;
+    const storedTheme = localStorage.getItem('custom-theme') as Theme | null;
     if (storedTheme && themes.includes(storedTheme)) {
-      setTheme(storedTheme);
+      setThemeState(storedTheme);
     }
   }, []);
 
-  useEffect(() => {
+  const setTheme = useCallback((newTheme: Theme) => {
     const root = window.document.documentElement;
     
-    root.classList.remove(...themes.map(t => `theme-${t}`));
-    
-    if (theme) {
-      root.classList.add(`theme-${theme}`);
-    }
-  }, [theme]);
+    // Remove all theme classes
+    themes.forEach(t => root.classList.remove(`theme-${t}`));
+
+    // Add the new theme class
+    root.classList.add(`theme-${newTheme}`);
+
+    // Persist to state and localStorage
+    setThemeState(newTheme);
+    localStorage.setItem('custom-theme', newTheme);
+  }, []);
+  
+  useEffect(() => {
+      setTheme(theme);
+  }, [theme, setTheme]);
+
 
   const cycleTheme = useCallback(() => {
     const currentIndex = themes.indexOf(theme);
     const nextIndex = (currentIndex + 1) % themes.length;
-    const newTheme = themes[nextIndex];
-    setTheme(newTheme);
-    localStorage.setItem('custom-theme', newTheme);
-  }, [theme]);
+    setTheme(themes[nextIndex]);
+  }, [theme, setTheme]);
 
   const value = useMemo(() => ({
     theme,
-    setTheme: (newTheme: Theme) => {
-        setTheme(newTheme);
-        localStorage.setItem('custom-theme', newTheme);
-    },
+    setTheme,
     cycleTheme,
-  }), [theme, cycleTheme]);
+  }), [theme, setTheme, cycleTheme]);
 
   return <CustomThemeContext.Provider value={value}>{children}</CustomThemeContext.Provider>;
 }
