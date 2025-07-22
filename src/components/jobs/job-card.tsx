@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Bookmark, Building, DollarSign, MapPin, CalendarDays } from "lucide-react";
+import { Bookmark, Building, Banknote, MapPin, CalendarDays } from "lucide-react";
 import Link from "next/link";
 import { formatDistanceToNow } from 'date-fns';
 import { useAuth } from "@/hooks/use-auth";
@@ -71,7 +71,7 @@ export function JobCard({ job }: JobCardProps) {
               <span>{job.location}</span>
             </div>
             <div className="flex items-center gap-2">
-              <DollarSign className="h-4 w-4 text-primary" />
+              <Banknote className="h-4 w-4 text-primary" />
               <span>{job.salary}</span>
             </div>
             <div className="flex items-center gap-2 sm:col-span-3">
