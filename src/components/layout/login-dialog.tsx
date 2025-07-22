@@ -34,7 +34,7 @@ export function LoginDialog({ isOpen, onOpenChange }: LoginDialogProps) {
       onOpenChange(false);
       toast({ title: "Success", description: "Logged in with Google." });
     } catch (e) {
-      toast({ variant: 'destructive', title: "Error", description: "Failed to sign in with Google."});
+      toast({ variant: 'destructive', title: "Google Sign-In Error", description: (e as Error).message });
     }
   };
 
@@ -44,7 +44,7 @@ export function LoginDialog({ isOpen, onOpenChange }: LoginDialogProps) {
       onOpenChange(false);
       toast({ title: "Success", description: "Logged in with LinkedIn." });
     } catch (e) {
-      toast({ variant: 'destructive', title: "Error", description: "Failed to sign in with LinkedIn."});
+      toast({ variant: 'destructive', title: "LinkedIn Sign-In Error", description: (e as Error).message });
     }
   };
 
