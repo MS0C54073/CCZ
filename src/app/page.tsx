@@ -80,19 +80,19 @@ function HeroSection() {
 }
 
 function FeaturedJobsSection() {
-  const featuredJobs = [
-    { title: 'Software Engineer', company: 'Tech Solutions', location: 'San Francisco, CA' },
-    { title: 'Product Manager', company: 'Innovate Inc.', location: 'New York, NY' },
-    { title: 'UX Designer', company: 'Creative Minds', location: 'Remote' },
-    { title: 'Data Scientist', company: 'Analytics Co.', location: 'Austin, TX' },
+  const newJobs = [
+    { title: 'Secondary School Teacher', company: 'Ministry of Education', location: 'Lusaka, Lusaka' },
+    { title: 'Registered Nurse', company: 'Ndola Central Hospital', location: 'Ndola, Copperbelt' },
+    { title: 'Mining Engineer', company: 'First Quantum Minerals (FQM)', location: 'Solwezi, North-Western' },
+    { title: 'Project Manager (NGO)', company: 'WWF Zambia', location: 'Mongu, Western' },
   ];
 
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
       <div className="container px-4 md:px-6">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12 font-headline">Featured Jobs</h2>
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12 font-headline">New Jobs</h2>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {featuredJobs.map((job, index) => (
+          {newJobs.map((job, index) => (
             <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
