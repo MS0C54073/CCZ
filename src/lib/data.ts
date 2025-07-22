@@ -1,7 +1,7 @@
 import { BarChart, Briefcase, DollarSign, MapPin, Users, TrendingUp } from 'lucide-react';
 
 export const jobFilters = {
-  jobType: ['Full-time', 'Part-time', 'Contract', 'Internship', 'Volunteer', 'Government'],
+  jobType: ['Full-time', 'Part-time', 'Contract', 'Internship', 'Volunteer', 'Government', 'Remote', 'Hybrid'],
   provinces: ['Lusaka', 'Copperbelt', 'Central', 'Eastern', 'Luapula', 'Muchinga', 'Northern', 'North-Western', 'Southern', 'Western'],
   locations: {
     'Lusaka': ['Lusaka', 'Chilanga', 'Chongwe', 'Kafue', 'Luangwa', 'Rufunsa'],
