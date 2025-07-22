@@ -25,11 +25,14 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { jobFilters } from "@/lib/data";
 import { Slider } from "../ui/slider";
+import { useRouter } from "next/navigation";
+import { useJobs } from "@/hooks/use-jobs";
 
 const postJobSchema = z.object({
   title: z.string().min(5, "Job title must be at least 5 characters."),
   company: z.string().min(2, "Company name is required."),
   logo: z.any().optional(),
+  type: z.string().min(1, "Job type is required"),
   province: z.string().min(2, "Province is required."),
   city: z.string().min(2, "City/District is required."),
   salaryRange: z.array(z.number()).min(2).max(2),
@@ -47,6 +50,8 @@ type PostJobFormValues = z.infer<typeof postJobSchema>;
 export function PostJobForm() {
   const [isSuggesting, setIsSuggesting] = useState(false);
   const { toast } = useToast();
+  const router = useRouter();
+  const { addJob } = useJobs();
 
   const form = useForm<PostJobFormValues>({
     resolver: zodResolver(postJobSchema),
@@ -91,12 +96,34 @@ export function PostJobForm() {
   };
 
   function onSubmit(data: PostJobFormValues) {
-    console.log(data);
+    const newJob = {
+      id: new Date().getTime().toString(), // Not a great ID, but works for prototype
+      title: data.title,
+      company: data.company,
+      logo: 'https://placehold.co/100x100.png', // Placeholder
+      location: `${data.city}, ${data.province}`,
+      salary: `ZMW ${data.salaryRange[0].toLocaleString()} - ZMW ${data.salaryRange[1].toLocaleString()}`,
+      type: data.type,
+      description: data.description,
+      tags: data.skills,
+      postedDate: new Date().toISOString(),
+      details: {
+        tasks: data.tasks.split('\n').filter(Boolean),
+        taskExamples: data.taskExamples.split('\n').filter(Boolean),
+        whoWeAreLookingFor: data.whoWeAreLookingFor.split('\n').filter(Boolean),
+        willBeAPlus: data.willBeAPlus.split('\n').filter(Boolean),
+        whatWeOffer: data.whatWeOffer.split('\n').filter(Boolean),
+      },
+    };
+
+    addJob(newJob);
+
     toast({
       title: "Job Posted!",
       description: "Your job listing is now live.",
     });
-    form.reset();
+    
+    router.push('/jobs');
   }
 
   return (
@@ -123,7 +150,7 @@ export function PostJobForm() {
               )} />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <FormField control={form.control} name="province" render={({ field }) => ( 
                 <FormItem>
                   <FormLabel>Province</FormLabel>
@@ -135,7 +162,7 @@ export function PostJobForm() {
                     </FormControl>
                     <SelectContent>
                       {jobFilters.provinces.map((province) => (
-                          <SelectItem key={province} value={province.toLowerCase()}>{province}</SelectItem>
+                          <SelectItem key={province} value={province}>{province}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -143,6 +170,24 @@ export function PostJobForm() {
                 </FormItem> 
               )} />
               <FormField control={form.control} name="city" render={({ field }) => ( <FormItem><FormLabel>City/District</FormLabel><FormControl><Input placeholder="e.g., Lusaka" {...field} /></FormControl><FormMessage /></FormItem> )} />
+              <FormField control={form.control} name="type" render={({ field }) => ( 
+                <FormItem>
+                  <FormLabel>Job Type</FormLabel>
+                   <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a job type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {jobFilters.jobType.map((type) => (
+                          <SelectItem key={type} value={type}>{type}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem> 
+              )} />
             </div>
             
             <FormField

@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/layout/header';
 import { AuthProvider } from '@/hooks/use-auth';
 import { CustomThemeProvider } from '@/hooks/use-custom-theme';
+import { JobsProvider } from '@/hooks/use-jobs';
 
 export const metadata: Metadata = {
   title: 'Career Compass Zambia (CCZ)',
@@ -29,12 +30,14 @@ export default function RootLayout({
       <body className="font-body antialiased">
         <CustomThemeProvider>
           <AuthProvider>
-            <div className="relative flex min-h-screen flex-col bg-background">
-              <Header />
-              <main className="flex-1">{children}</main>
-              <Footer />
-            </div>
-            <Toaster />
+            <JobsProvider>
+              <div className="relative flex min-h-screen flex-col bg-background">
+                <Header />
+                <main className="flex-1">{children}</main>
+                <Footer />
+              </div>
+              <Toaster />
+            </JobsProvider>
           </AuthProvider>
         </CustomThemeProvider>
       </body>

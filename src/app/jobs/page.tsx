@@ -4,12 +4,13 @@
 import { useState, useMemo } from 'react';
 import { JobFilters } from "@/components/jobs/job-filters";
 import { JobCard } from "@/components/jobs/job-card";
-import { jobs } from "@/lib/data";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { useJobs } from '@/hooks/use-jobs';
 
 const initialSalaryRange: [number, number] = [0, 100000];
 
 export default function JobsPage() {
+  const { jobs } = useJobs();
   const [salaryRange, setSalaryRange] = useState<[number, number]>(initialSalaryRange);
   const [keyword, setKeyword] = useState('');
   const [province, setProvince] = useState('');
@@ -44,7 +45,7 @@ export default function JobsPage() {
 
         return salaryMatch && keywordMatch && provinceMatch && cityMatch && jobTypeMatch;
       });
-  }, [salaryRange, keyword, province, city, jobTypes]);
+  }, [jobs, salaryRange, keyword, province, city, jobTypes]);
 
   const resetFilters = () => {
     setKeyword('');

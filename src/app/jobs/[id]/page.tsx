@@ -1,7 +1,6 @@
 
 'use client';
 
-import { jobs } from "@/lib/data";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +12,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
 import { LoginDialog } from "@/components/layout/login-dialog";
+import { useJobs } from "@/hooks/use-jobs";
 
 type JobDetailPageProps = {
   params: {
@@ -38,6 +38,7 @@ function Section({ title, items }: { title: string; items: string[] }) {
 }
 
 export default function JobDetailPage({ params }: JobDetailPageProps) {
+  const { jobs } = useJobs();
   const job = jobs.find((j) => j.id === params.id);
   const { user } = useAuth();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
