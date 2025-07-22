@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -16,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { PlusCircle, Trash2, Wand2, Loader2 } from 'lucide-react';
+import { PlusCircle, Trash2, Wand2, Loader2, FileText, Edit } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { useState } from 'react';
 import { summarizeProfile } from '@/ai/flows/summarize-profile';
@@ -70,6 +71,13 @@ const defaultValues: Partial<ProfileFormValues> = {
   summary: '',
   driversLicense: { hasLicense: false, licenseDetails: '' },
 };
+
+// Mock data for resume versions
+const resumeVersions = [
+  { id: '1', name: 'Standard Tech CV', type: 'ICT' },
+  { id: '2', name: 'NGO & Development Resume', type: 'NGO' },
+  { id: '3', name: 'Management CV', type: 'Management' },
+];
 
 export function ProfileForm() {
   const form = useForm<ProfileFormValues>({
@@ -212,6 +220,41 @@ export function ProfileForm() {
               )}
             />
           </CardContent>
+        </Card>
+
+        <Card>
+            <CardHeader>
+                <div className="flex justify-between items-center">
+                    <div>
+                        <CardTitle>My Resume Versions</CardTitle>
+                        <CardDescription>Create and manage CVs tailored for different job types.</CardDescription>
+                    </div>
+                    <Button type="button" variant="outline">
+                        <PlusCircle className="mr-2 h-4 w-4" /> Create New Resume
+                    </Button>
+                </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                {resumeVersions.map(resume => (
+                    <div key={resume.id} className="flex items-center justify-between p-4 border rounded-md hover:bg-muted/50">
+                        <div className="flex items-center gap-4">
+                            <FileText className="h-6 w-6 text-primary" />
+                            <div>
+                                <p className="font-semibold">{resume.name}</p>
+                                <p className="text-sm text-muted-foreground">Type: {resume.type}</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Button variant="ghost" size="icon">
+                                <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="icon">
+                                <Trash2 className="h-4 w-4 text-destructive" />
+                            </Button>
+                        </div>
+                    </div>
+                ))}
+            </CardContent>
         </Card>
 
         <Card>
