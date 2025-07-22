@@ -144,6 +144,7 @@ export function ProfileForm() {
         <Card>
           <CardHeader>
             <CardTitle>Personal Information</CardTitle>
+            <CardDescription>This information will be used to populate your applications.</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField control={form.control} name="fullName" render={({ field }) => (
@@ -265,6 +266,7 @@ export function ProfileForm() {
         <Card>
           <CardHeader>
             <CardTitle>Work Experience</CardTitle>
+            <CardDescription>Detail your professional history.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {expFields.map((field, index) => (
@@ -289,6 +291,7 @@ export function ProfileForm() {
         <Card>
           <CardHeader>
             <CardTitle>Education</CardTitle>
+            <CardDescription>List your academic qualifications.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {eduFields.map((field, index) => (
@@ -312,6 +315,7 @@ export function ProfileForm() {
         <Card>
           <CardHeader>
             <CardTitle>Certifications</CardTitle>
+            <CardDescription>Add any professional certifications.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {certFields.map((field, index) => (
@@ -366,6 +370,7 @@ export function ProfileForm() {
         <Card>
           <CardHeader>
             <CardTitle>Driver's License</CardTitle>
+            <CardDescription>Specify if you have a driver's license.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <FormField
@@ -411,4 +416,3 @@ export function ProfileForm() {
     </Form>
   );
 }
-

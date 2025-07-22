@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useState } from "react";
 import { suggestSkillTags } from "@/ai/flows/skill-tagging";
 import { useToast } from "@/hooks/use-toast";
@@ -103,6 +103,7 @@ export function PostJobForm() {
     <Card>
       <CardHeader>
         <CardTitle>Job Details</CardTitle>
+        <CardDescription>Fill in all the required fields to create a complete and attractive job post.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -173,6 +174,7 @@ export function PostJobForm() {
                   <FormControl>
                     <Textarea placeholder="Describe the role, responsibilities, and qualifications..." rows={8} {...field} />
                   </FormControl>
+                  <FormDescription>A good summary of the role. At least 50 characters.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

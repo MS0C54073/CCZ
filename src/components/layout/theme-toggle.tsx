@@ -6,7 +6,7 @@ import { Palette } from "lucide-react"
 import { useCustomTheme } from "@/hooks/use-custom-theme"
 
 import { Button } from "@/components/ui/button"
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 export function ThemeToggle() {
   const { cycleTheme } = useCustomTheme();

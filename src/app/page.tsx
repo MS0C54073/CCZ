@@ -66,7 +66,7 @@ function HeroSection() {
             </div>
           </div>
           <Image
-            src="https://drive.google.com/uc?export=view&id=1T0ZQJpT1egGN5TCIpCkFSfRwFmg1uwjf"
+            src="https://placehold.co/600x400.png"
             data-ai-hint="Zambian professionals"
             width="600"
             height="400"
