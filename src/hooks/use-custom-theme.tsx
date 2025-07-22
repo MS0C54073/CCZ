@@ -21,20 +21,19 @@ export function CustomThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const storedTheme = localStorage.getItem('custom-theme') as Theme | null;
     if (storedTheme && themes.includes(storedTheme)) {
-        setThemeState(storedTheme);
+      setThemeState(storedTheme);
     }
   }, []);
 
   const setTheme = useCallback((newTheme: Theme) => {
-    document.body.classList.remove(...themes.map(t => `theme-${t}`));
-    document.body.classList.add(`theme-${newTheme}`);
-    localStorage.setItem('custom-theme', newTheme);
     setThemeState(newTheme);
+    localStorage.setItem('custom-theme', newTheme);
   }, []);
-  
-  // Apply theme on initial load and when theme state changes
+
   useEffect(() => {
+    // Clear all possible theme classes
     document.body.classList.remove(...themes.map(t => `theme-${t}`));
+    // Add the current theme class
     document.body.classList.add(`theme-${theme}`);
   }, [theme]);
 
