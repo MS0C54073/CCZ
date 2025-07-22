@@ -26,9 +26,9 @@ export default function JobsPage() {
       .sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()) // Sort by most recent
       .filter(job => {
         // Salary filtering
-        const salaryString = job.salary.replace(/ZMW|,|\s/g, '').split('-')[0];
-        const jobSalary = parseInt(salaryString, 10);
-        const salaryMatch = isNaN(jobSalary) || (jobSalary >= salaryRange[0] && jobSalary <= salaryRange[1]);
+        const salaryString = job.salary.replace(/ZMW|,|\s/g, '');
+        const salaryMatchValue = parseInt(salaryString, 10);
+        const salaryMatch = isNaN(salaryMatchValue) || (salaryMatchValue >= salaryRange[0] && salaryMatchValue <= salaryRange[1]);
 
         // Keyword filtering
         const keywordMatch = keyword.trim() === '' ||

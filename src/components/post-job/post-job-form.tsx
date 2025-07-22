@@ -215,7 +215,7 @@ export function PostJobForm() {
                       step={1000}
                     />
                   </FormControl>
-                  <div className="flex justify-between text-sm text-muted-foreground">
+                  <div className="flex justify-between text-sm text-muted-foreground mt-2">
                     <span>ZMW {field.value[0].toLocaleString()}</span>
                     <span>ZMW {field.value[1].toLocaleString()}</span>
                   </div>

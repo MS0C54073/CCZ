@@ -64,7 +64,13 @@ const profileSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
-const defaultValues: Partial<ProfileFormValues> = {
+const defaultValues: ProfileFormValues = {
+  fullName: '',
+  email: '',
+  phone: '',
+  address: '',
+  nationalId: '',
+  portfolio: '',
   experience: [{ title: '', company: '', years: '', description: '' }],
   education: [{ degree: '', school: '', year: '' }],
   certifications: [],
@@ -227,10 +233,10 @@ export function ProfileForm() {
         <Card>
             <CardHeader>
                 <div className="flex justify-between items-center">
-                    <div>
-                        <CardTitle>My Resume Versions</CardTitle>
-                        <CardDescription>Create and manage CVs tailored for different job types.</CardDescription>
-                    </div>
+                  <div>
+                    <CardTitle>My Resume Versions</CardTitle>
+                    <CardDescription>Create and manage CVs tailored for different job types.</CardDescription>
+                  </div>
                     <Button type="button" variant="outline">
                         <PlusCircle className="mr-2 h-4 w-4" /> Create New Resume
                     </Button>

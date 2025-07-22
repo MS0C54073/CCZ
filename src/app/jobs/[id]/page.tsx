@@ -67,7 +67,6 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
               <div className="flex items-center gap-4">
                  <Image
                       src={job.logo}
-                      data-ai-hint="company logo"
                       width={80}
                       height={80}
                       alt={`${job.company} logo`}

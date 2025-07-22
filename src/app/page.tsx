@@ -67,7 +67,6 @@ function HeroSection() {
           </div>
           <Image
             src="https://drive.google.com/uc?export=view&id=1T0ZQJpT1egGN5TCIpCkFSfRwFmg1uwjf"
-            data-ai-hint="Zambian professionals"
             width="600"
             height="400"
             alt="Hero"
@@ -99,11 +98,15 @@ function NewJobsSection() {
           {newJobs.map((job, index) => (
             <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Briefcase className="w-6 h-6 text-primary" /> {job.title}
+                <CardTitle>
+                  <div className="flex items-center gap-2">
+                    <Briefcase className="w-6 h-6 text-primary" /> {job.title}
+                  </div>
                 </CardTitle>
-                <CardDescription className="flex items-center gap-2 pt-2">
-                  <Building className="w-4 h-4" /> {job.company}
+                <CardDescription>
+                  <div className="flex items-center gap-2 pt-2">
+                    <Building className="w-4 h-4" /> {job.company}
+                  </div>
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -171,5 +174,3 @@ function CtaSection() {
     </section>
   );
 }
-
-    
