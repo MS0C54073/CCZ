@@ -6,6 +6,7 @@ import { JobFilters } from "@/components/jobs/job-filters";
 import { JobCard } from "@/components/jobs/job-card";
 import { jobs } from "@/lib/data";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { differenceInDays } from 'date-fns';
 
 const initialSalaryRange: [number, number] = [0, 100000];
 
@@ -15,24 +16,32 @@ export default function JobsPage() {
   const [province, setProvince] = useState('');
   const [city, setCity] = useState('');
 
-  const filteredJobs = useMemo(() => jobs.filter(job => {
-    // Salary filtering
-    const salaryString = job.salary.replace(/ZMW|,|\s/g, '').split('-')[0];
-    const jobSalary = parseInt(salaryString, 10);
-    const salaryMatch = isNaN(jobSalary) || (jobSalary >= salaryRange[0] && jobSalary <= salaryRange[1]);
+  const filteredJobs = useMemo(() => {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-    // Keyword filtering
-    const keywordMatch = keyword.trim() === '' ||
-      job.title.toLowerCase().includes(keyword.toLowerCase()) ||
-      job.company.toLowerCase().includes(keyword.toLowerCase()) ||
-      job.description.toLowerCase().includes(keyword.toLowerCase());
-      
-    // Location filtering
-    const provinceMatch = province.trim() === '' || job.location.toLowerCase().includes(province.toLowerCase());
-    const cityMatch = city.trim() === '' || job.location.toLowerCase().includes(city.toLowerCase());
+    return jobs
+      .filter(job => new Date(job.postedDate) >= thirtyDaysAgo) // Filter jobs posted within the last 30 days
+      .sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime()) // Sort by most recent
+      .filter(job => {
+        // Salary filtering
+        const salaryString = job.salary.replace(/ZMW|,|\s/g, '').split('-')[0];
+        const jobSalary = parseInt(salaryString, 10);
+        const salaryMatch = isNaN(jobSalary) || (jobSalary >= salaryRange[0] && jobSalary <= salaryRange[1]);
 
-    return salaryMatch && keywordMatch && provinceMatch && cityMatch;
-  }), [salaryRange, keyword, province, city]);
+        // Keyword filtering
+        const keywordMatch = keyword.trim() === '' ||
+          job.title.toLowerCase().includes(keyword.toLowerCase()) ||
+          job.company.toLowerCase().includes(keyword.toLowerCase()) ||
+          job.description.toLowerCase().includes(keyword.toLowerCase());
+          
+        // Location filtering
+        const provinceMatch = province.trim() === '' || job.location.toLowerCase().includes(province.toLowerCase());
+        const cityMatch = city.trim() === '' || job.location.toLowerCase().includes(city.toLowerCase());
+
+        return salaryMatch && keywordMatch && provinceMatch && cityMatch;
+      });
+  }, [salaryRange, keyword, province, city]);
 
   const resetFilters = () => {
     setKeyword('');
@@ -95,5 +104,3 @@ export default function JobsPage() {
     </div>
   );
 }
-
-    

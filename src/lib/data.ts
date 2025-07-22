@@ -1,4 +1,5 @@
 import { BarChart, Briefcase, DollarSign, MapPin, Users, TrendingUp } from 'lucide-react';
+import { subDays } from 'date-fns';
 
 export const jobFilters = {
   jobType: ['Full-time', 'Part-time', 'Contract', 'Internship', 'Volunteer', 'Government', 'Remote', 'Hybrid'],
@@ -28,6 +29,7 @@ export const jobs = [
     type: 'Government',
     description: 'Seeking a qualified teacher for a government secondary school in Lusaka. Responsibilities include preparing lesson plans, teaching, and assessing students.',
     tags: ['Education', 'Teaching', 'Government'],
+    postedDate: subDays(new Date(), 2).toISOString(),
   },
   {
     id: '2',
@@ -39,6 +41,7 @@ export const jobs = [
     type: 'Healthcare',
     description: 'We are looking for a compassionate Registered Nurse to join our team at a major hospital in the Copperbelt. Must be registered with the Nursing and Midwifery Council of Zambia.',
     tags: ['Healthcare', 'Nursing', 'Public Sector'],
+    postedDate: subDays(new Date(), 5).toISOString(),
   },
   {
     id: '3',
@@ -50,6 +53,7 @@ export const jobs = [
     type: 'Government',
     description: 'Join our ICT team to support and maintain our critical systems. Experience with network infrastructure and server management is required.',
     tags: ['ICT', 'Government', 'Networking'],
+    postedDate: subDays(new Date(), 1).toISOString(),
   },
   {
     id: '4',
@@ -61,6 +65,7 @@ export const jobs = [
     type: 'Full-time',
     description: 'Supervise construction projects and ensure they are completed on time and within budget. Must have over 5 years of experience in a similar role.',
     tags: ['Construction', 'Supervision', 'Civil Engineering'],
+    postedDate: subDays(new Date(), 10).toISOString(),
   },
   {
     id: '5',
@@ -69,9 +74,10 @@ export const jobs = [
     logo: 'https://placehold.co/100x100.png',
     location: 'Lusaka, (Hybrid)',
     salary: 'ZMW 12,000 - ZMW 18,000',
-    type: 'Full-time',
+    type: 'Hybrid',
     description: 'An exciting opportunity for an experienced accountant to join a leading telecommunications company. ACCA or ZICA qualification is a must.',
     tags: ['Accounting', 'Finance', 'ACCA'],
+    postedDate: subDays(new Date(), 7).toISOString(),
   },
   {
     id: '6',
@@ -83,6 +89,7 @@ export const jobs = [
     type: 'Full-time',
     description: 'Seeking an experienced agronomist to manage crop production and advise on best farming practices. A degree in Agriculture is required.',
     tags: ['Agriculture', 'Farming', 'Agronomy'],
+    postedDate: subDays(new Date(), 12).toISOString(),
   },
   {
     id: '7',
@@ -94,6 +101,7 @@ export const jobs = [
     type: 'Full-time',
     description: 'Join one of Africa\'s largest copper mines. Responsible for planning and overseeing mining operations.',
     tags: ['Mining', 'Engineering', 'Copper'],
+    postedDate: subDays(new Date(), 20).toISOString(),
   },
   {
     id: '8',
@@ -105,6 +113,7 @@ export const jobs = [
     type: 'Full-time',
     description: 'Manage a world-renowned safari lodge, overseeing guest services, staff, and daily operations.',
     tags: ['Tourism', 'Hospitality', 'Management'],
+    postedDate: subDays(new Date(), 4).toISOString(),
   },
   {
     id: '9',
@@ -116,6 +125,7 @@ export const jobs = [
     type: 'Full-time',
     description: 'Process transactions and provide excellent customer service at our Chipata branch.',
     tags: ['Banking', 'Finance', 'Customer Service'],
+    postedDate: subDays(new Date(), 8).toISOString(),
   },
   {
     id: '10',
@@ -124,9 +134,10 @@ export const jobs = [
     logo: 'https://placehold.co/100x100.png',
     location: 'Lusaka, Lusaka (Remote)',
     salary: 'ZMW 14,000 - ZMW 20,000',
-    type: 'Contract',
+    type: 'Remote',
     description: 'Build and maintain modern web applications using React and TypeScript for Zambia\'s leading tech hub.',
     tags: ['ICT', 'Software Development', 'React'],
+    postedDate: subDays(new Date(), 3).toISOString(),
   },
   {
     id: '11',
@@ -138,6 +149,7 @@ export const jobs = [
     type: 'Contract',
     description: 'Manage conservation projects in the Western Province. Experience in environmental work and community engagement is essential.',
     tags: ['NGO', 'Project Management', 'Conservation'],
+    postedDate: subDays(new Date(), 15).toISOString(),
   },
   {
     id: '12',
@@ -149,6 +161,7 @@ export const jobs = [
     type: 'Full-time',
     description: 'Coordinate and monitor supply chain operations, including transportation and warehousing.',
     tags: ['Logistics', 'Supply Chain', 'Transport'],
+    postedDate: subDays(new Date(), 22).toISOString(),
   },
   {
     id: '13',
@@ -160,6 +173,7 @@ export const jobs = [
     type: 'Full-time',
     description: 'Develop and implement marketing strategies to drive brand growth and customer acquisition.',
     tags: ['Marketing', 'Management', 'Telecoms'],
+    postedDate: subDays(new Date(), 6).toISOString(),
   },
   {
     id: '14',
@@ -171,6 +185,7 @@ export const jobs = [
     type: 'Full-time',
     description: 'Service and repair heavy-duty mining and construction equipment.',
     tags: ['Mechanic', 'Mining', 'Artisan'],
+    postedDate: subDays(new Date(), 40).toISOString(), // Older than 30 days
   },
   {
     id: '15',
@@ -182,6 +197,7 @@ export const jobs = [
     type: 'Full-time',
     description: 'Manage recruitment, employee relations, and other HR functions at a large agricultural estate.',
     tags: ['Human Resources', 'HR', 'Agriculture'],
+    postedDate: subDays(new Date(), 18).toISOString(),
   },
   {
     id: '16',
@@ -193,6 +209,7 @@ export const jobs = [
     type: 'Internship',
     description: 'An opportunity for a recent graduate to gain experience in data analysis, visualization, and reporting.',
     tags: ['Internship', 'Data Analysis', 'ICT'],
+    postedDate: subDays(new Date(), 9).toISOString(),
   },
   {
     id: '17',
@@ -204,6 +221,7 @@ export const jobs = [
     type: 'Government',
     description: 'Install, maintain, and repair electrical systems for the national power utility.',
     tags: ['Artisan', 'Electrical', 'Government'],
+    postedDate: subDays(new Date(), 25).toISOString(),
   },
   {
     id: '18',
@@ -215,6 +233,7 @@ export const jobs = [
     type: 'Full-time',
     description: 'Drive sales of FMCG products within the Luapula province. A driver\'s license is required.',
     tags: ['Sales', 'FMCG', 'Retail'],
+    postedDate: subDays(new Date(), 28).toISOString(),
   },
   {
     id: '19',
@@ -226,6 +245,7 @@ export const jobs = [
     type: 'NGO',
     description: 'Track program performance and impact for an international NGO focused on poverty alleviation.',
     tags: ['NGO', 'M&E', 'Data'],
+    postedDate: subDays(new Date(), 35).toISOString(), // Older than 30 days
   },
   {
     id: '20',
@@ -237,6 +257,7 @@ export const jobs = [
     type: 'Government',
     description: 'Provide veterinary services to farmers in the Southern province to improve livestock health and productivity.',
     tags: ['Government', 'Veterinary', 'Agriculture'],
+    postedDate: subDays(new Date(), 1).toISOString(),
   }
 ];
 
@@ -304,6 +325,3 @@ export const analyticsData = {
         { month: 'Jun', applications: 112 },
     ]
 };
-
-    
-    

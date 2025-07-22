@@ -45,7 +45,7 @@ export function RecruiterDashboard() {
                   <TableHead>Title</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Apps</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -56,9 +56,10 @@ export function RecruiterDashboard() {
                       <Badge variant={job.status === 'Open' ? 'default' : 'destructive'}>{job.status}</Badge>
                     </TableCell>
                     <TableCell>{job.applicants}</TableCell>
-                    <TableCell className="flex gap-1">
+                    <TableCell className="flex gap-1 justify-end">
                       <Button variant="ghost" size="icon"><Eye className="h-4 w-4" /></Button>
                       <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
+                      <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                     </TableCell>
                   </TableRow>
                 ))}

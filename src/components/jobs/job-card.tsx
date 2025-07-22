@@ -2,8 +2,9 @@ import Image from "next/image";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Bookmark, Building, DollarSign, MapPin } from "lucide-react";
+import { Bookmark, Building, DollarSign, MapPin, CalendarDays } from "lucide-react";
 import Link from "next/link";
+import { formatDistanceToNow } from 'date-fns';
 
 type Job = {
   id: string;
@@ -15,6 +16,7 @@ type Job = {
   type: string;
   description: string;
   tags: string[];
+  postedDate: string;
 };
 
 interface JobCardProps {
@@ -51,7 +53,7 @@ export function JobCard({ job }: JobCardProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-muted-foreground">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <MapPin className="h-4 w-4 text-primary" />
             <span>{job.location}</span>
@@ -62,6 +64,10 @@ export function JobCard({ job }: JobCardProps) {
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="outline">{job.type}</Badge>
+          </div>
+          <div className="flex items-center gap-2 sm:col-span-3">
+             <CalendarDays className="h-4 w-4 text-primary" />
+             <span>Posted {formatDistanceToNow(new Date(job.postedDate), { addSuffix: true })}</span>
           </div>
         </div>
       </CardContent>
