@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { PlusCircle, Trash2, Wand2, Loader2, FileText, Edit } from 'lucide-react';
+import { PlusCircle, Trash2, Wand2, Loader2, FileText, Edit, Download } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { useState } from 'react';
 import { summarizeProfile } from '@/ai/flows/summarize-profile';
@@ -245,6 +245,10 @@ export function ProfileForm() {
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
+                            <Button variant="outline" size="sm">
+                                <Download className="mr-2 h-4 w-4" />
+                                Download PDF
+                            </Button>
                             <Button variant="ghost" size="icon">
                                 <Edit className="h-4 w-4" />
                             </Button>
