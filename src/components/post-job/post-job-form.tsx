@@ -34,6 +34,11 @@ const postJobSchema = z.object({
   city: z.string().min(2, "City/District is required."),
   salaryRange: z.array(z.number()).min(2).max(2),
   description: z.string().min(50, "Description must be at least 50 characters."),
+  tasks: z.string().min(20, "Please list at least one task."),
+  taskExamples: z.string().min(20, "Please provide at least one example."),
+  whoWeAreLookingFor: z.string().min(20, "Please describe who you are looking for."),
+  willBeAPlus: z.string().min(10, "Please list at least one 'plus' item."),
+  whatWeOffer: z.string().min(20, "Please list at least one offering."),
   skills: z.array(z.string()),
 });
 
@@ -172,6 +177,52 @@ export function PostJobForm() {
                 </FormItem>
               )}
             />
+
+            <FormField control={form.control} name="tasks" render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tasks</FormLabel>
+                <FormControl><Textarea placeholder="List the main tasks for the role. One per line." rows={4} {...field} /></FormControl>
+                <FormDescription>Enter each task on a new line.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )} />
+
+            <FormField control={form.control} name="taskExamples" render={({ field }) => (
+              <FormItem>
+                <FormLabel>Examples of Tasks</FormLabel>
+                <FormControl><Textarea placeholder="List specific examples of tasks. One per line." rows={4} {...field} /></FormControl>
+                 <FormDescription>Enter each example on a new line.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )} />
+
+            <FormField control={form.control} name="whoWeAreLookingFor" render={({ field }) => (
+              <FormItem>
+                <FormLabel>Who We Are Looking For</FormLabel>
+                <FormControl><Textarea placeholder="Describe the ideal candidate's qualifications and attributes. One per line." rows={4} {...field} /></FormControl>
+                 <FormDescription>Enter each requirement on a new line.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )} />
+
+            <FormField control={form.control} name="willBeAPlus" render={({ field }) => (
+              <FormItem>
+                <FormLabel>It Will Be a Plus</FormLabel>
+                <FormControl><Textarea placeholder="List desirable, but not essential, qualifications. One per line." rows={3} {...field} /></FormControl>
+                 <FormDescription>Enter each item on a new line.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )} />
+
+            <FormField control={form.control} name="whatWeOffer" render={({ field }) => (
+              <FormItem>
+                <FormLabel>What We Offer</FormLabel>
+                <FormControl><Textarea placeholder="List the benefits and opportunities you provide. One per line." rows={4} {...field} /></FormControl>
+                 <FormDescription>Enter each offering on a new line.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )} />
+
             <FormItem>
               <div className="flex justify-between items-center mb-2">
                 <FormLabel>Skills</FormLabel>
