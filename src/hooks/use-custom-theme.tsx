@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode, useMemo } from 'react';
 
 type Theme = 'green' | 'blue' | 'black';
 
@@ -16,32 +16,39 @@ const CustomThemeContext = createContext<CustomThemeContextType | undefined>(und
 const themes: Theme[] = ['green', 'blue', 'black'];
 
 export function CustomThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('black');
+  const [theme, setThemeState] = useState<Theme>('black');
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem('custom-theme') as Theme;
+    const storedTheme = localStorage.getItem('custom-theme') as Theme | null;
     if (storedTheme && themes.includes(storedTheme)) {
-      setTheme(storedTheme);
+        setThemeState(storedTheme);
     }
   }, []);
 
+  const setTheme = useCallback((newTheme: Theme) => {
+    document.body.classList.remove(...themes.map(t => `theme-${t}`));
+    document.body.classList.add(`theme-${newTheme}`);
+    localStorage.setItem('custom-theme', newTheme);
+    setThemeState(newTheme);
+  }, []);
+  
+  // Apply theme on initial load and when theme state changes
   useEffect(() => {
     document.body.classList.remove(...themes.map(t => `theme-${t}`));
     document.body.classList.add(`theme-${theme}`);
-    localStorage.setItem('custom-theme', theme);
   }, [theme]);
-  
+
   const cycleTheme = useCallback(() => {
     const currentIndex = themes.indexOf(theme);
     const nextIndex = (currentIndex + 1) % themes.length;
     setTheme(themes[nextIndex]);
-  }, [theme]);
+  }, [theme, setTheme]);
 
-  const value = {
+  const value = useMemo(() => ({
     theme,
     setTheme,
     cycleTheme,
-  };
+  }), [theme, setTheme, cycleTheme]);
 
   return <CustomThemeContext.Provider value={value}>{children}</CustomThemeContext.Provider>;
 }
