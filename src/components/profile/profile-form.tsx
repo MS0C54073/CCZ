@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,13 +21,19 @@ import { Badge } from '../ui/badge';
 import { useState } from 'react';
 import { summarizeProfile } from '@/ai/flows/summarize-profile';
 import { useToast } from '@/hooks/use-toast';
+import { Checkbox } from '../ui/checkbox';
 
 const profileSchema = z.object({
   fullName: z.string().min(2, 'Full name is required'),
   email: z.string().email(),
   phone: z.string().optional(),
-  location: z.string().optional(),
+  address: z.string().optional(),
+  nationalId: z.string().optional(),
   portfolio: z.string().url().optional().or(z.literal('')),
+  driversLicense: z.object({
+    hasLicense: z.boolean().default(false),
+    licenseDetails: z.string().optional(),
+  }).optional(),
   experience: z.array(
     z.object({
       title: z.string().min(1, 'Title is required'),
@@ -42,6 +49,13 @@ const profileSchema = z.object({
       year: z.string().min(4, 'Year is required'),
     })
   ),
+  certifications: z.array(
+    z.object({
+      name: z.string().min(1, 'Certification name is required'),
+      issuingBody: z.string().min(1, 'Issuing body is required'),
+      year: z.string().optional(),
+    })
+  ),
   skills: z.array(z.object({ value: z.string() })),
   summary: z.string().optional(),
 });
@@ -51,8 +65,10 @@ type ProfileFormValues = z.infer<typeof profileSchema>;
 const defaultValues: Partial<ProfileFormValues> = {
   experience: [{ title: '', company: '', years: '', description: '' }],
   education: [{ degree: '', school: '', year: '' }],
+  certifications: [],
   skills: [{ value: 'React' }, { value: 'TypeScript' }],
   summary: '',
+  driversLicense: { hasLicense: false, licenseDetails: '' },
 };
 
 export function ProfileForm() {
@@ -72,6 +88,12 @@ export function ProfileForm() {
     append: appendEdu,
     remove: removeEdu,
   } = useFieldArray({ control: form.control, name: 'education' });
+  const {
+    fields: certFields,
+    append: appendCert,
+    remove: removeCert,
+  } = useFieldArray({ control: form.control, name: 'certifications' });
+    
   const [isSummarizing, setIsSummarizing] = useState(false);
   const { toast } = useToast();
 
@@ -134,14 +156,21 @@ export function ProfileForm() {
             <FormField control={form.control} name="phone" render={({ field }) => (
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
-                  <FormControl><Input placeholder="(123) 456-7890" {...field} /></FormControl>
+                  <FormControl><Input placeholder="+260 977 123456" {...field} /></FormControl>
                 </FormItem>
               )}
             />
-            <FormField control={form.control} name="location" render={({ field }) => (
+            <FormField control={form.control} name="nationalId" render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Location</FormLabel>
-                  <FormControl><Input placeholder="San Francisco, CA" {...field} /></FormControl>
+                  <FormLabel>National ID (NRC/Passport)</FormLabel>
+                  <FormControl><Input placeholder="e.g. 123456/10/1" {...field} /></FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField control={form.control} name="address" render={({ field }) => (
+                <FormItem className="md:col-span-2">
+                  <FormLabel>Address</FormLabel>
+                  <FormControl><Textarea placeholder="Your physical address" {...field} /></FormControl>
                 </FormItem>
               )}
             />
@@ -208,6 +237,52 @@ export function ProfileForm() {
             </Button>
           </CardContent>
         </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Education</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {eduFields.map((field, index) => (
+              <div key={field.id} className="p-4 border rounded-md relative space-y-4">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField control={form.control} name={`education.${index}.degree`} render={({ field }) => ( <FormItem><FormLabel>Degree/Diploma</FormLabel><FormControl><Input {...field} placeholder="e.g., Bachelor of Science" /></FormControl><FormMessage /></FormItem> )} />
+                  <FormField control={form.control} name={`education.${index}.school`} render={({ field }) => ( <FormItem><FormLabel>School/University</FormLabel><FormControl><Input {...field} placeholder="e.g., University of Zambia" /></FormControl><FormMessage /></FormItem> )} />
+                </div>
+                 <FormField control={form.control} name={`education.${index}.year`} render={({ field }) => ( <FormItem><FormLabel>Year of Graduation</FormLabel><FormControl><Input {...field} placeholder="e.g., 2024" /></FormControl><FormMessage /></FormItem> )} />
+                <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2" onClick={() => removeEdu(index)}>
+                  <Trash2 className="h-4 w-4 text-destructive" />
+                </Button>
+              </div>
+            ))}
+            <Button type="button" variant="outline" onClick={() => appendEdu({ degree: '', school: '', year: '' })}>
+              <PlusCircle className="mr-2 h-4 w-4" /> Add Education
+            </Button>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Certifications</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {certFields.map((field, index) => (
+              <div key={field.id} className="p-4 border rounded-md relative space-y-4">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField control={form.control} name={`certifications.${index}.name`} render={({ field }) => ( <FormItem><FormLabel>Certification Name</FormLabel><FormControl><Input {...field} placeholder="e.g., Google Certified Cloud Architect" /></FormControl><FormMessage /></FormItem> )} />
+                  <FormField control={form.control} name={`certifications.${index}.issuingBody`} render={({ field }) => ( <FormItem><FormLabel>Issuing Body</FormLabel><FormControl><Input {...field} placeholder="e.g., Google" /></FormControl><FormMessage /></FormItem> )} />
+                </div>
+                 <FormField control={form.control} name={`certifications.${index}.year`} render={({ field }) => ( <FormItem><FormLabel>Year Obtained</FormLabel><FormControl><Input {...field} placeholder="e.g., 2023" /></FormControl><FormMessage /></FormItem> )} />
+                <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2" onClick={() => removeCert(index)}>
+                  <Trash2 className="h-4 w-4 text-destructive" />
+                </Button>
+              </div>
+            ))}
+            <Button type="button" variant="outline" onClick={() => appendCert({ name: '', issuingBody: '', year: '' })}>
+              <PlusCircle className="mr-2 h-4 w-4" /> Add Certification
+            </Button>
+          </CardContent>
+        </Card>
 
         <Card>
           <CardHeader>
@@ -221,6 +296,47 @@ export function ProfileForm() {
                 <Badge key={index} variant="default">{skill.value}</Badge>
               ))}
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Driver's License</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <FormField
+              control={form.control}
+              name="driversLicense.hasLicense"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      I have a driver's license
+                    </FormLabel>
+                  </div>
+                </FormItem>
+              )}
+            />
+            {form.watch('driversLicense.hasLicense') && (
+              <FormField
+                control={form.control}
+                name="driversLicense.licenseDetails"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>License Class/Details</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="e.g., Class C" />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            )}
           </CardContent>
         </Card>
 
