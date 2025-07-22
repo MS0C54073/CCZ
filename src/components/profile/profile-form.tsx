@@ -55,6 +55,7 @@ const profileSchema = z.object({
       name: z.string().min(1, 'Certification name is required'),
       issuingBody: z.string().min(1, 'Issuing body is required'),
       year: z.string().optional(),
+      file: z.any().optional(),
     })
   ),
   skills: z.array(z.object({ value: z.string() })),
@@ -320,12 +321,28 @@ export function ProfileForm() {
                   <FormField control={form.control} name={`certifications.${index}.issuingBody`} render={({ field }) => ( <FormItem><FormLabel>Issuing Body</FormLabel><FormControl><Input {...field} placeholder="e.g., Google" /></FormControl><FormMessage /></FormItem> )} />
                 </div>
                  <FormField control={form.control} name={`certifications.${index}.year`} render={({ field }) => ( <FormItem><FormLabel>Year Obtained</FormLabel><FormControl><Input {...field} placeholder="e.g., 2023" /></FormControl><FormMessage /></FormItem> )} />
+                 <FormField control={form.control} name={`certifications.${index}.file`} render={({ field: { value, onChange, ...fieldProps } }) => (
+                  <FormItem>
+                    <FormLabel>Certificate File</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...fieldProps}
+                        type="file"
+                        accept=".pdf,.doc,.docx,.jpg,.png"
+                        onChange={(event) =>
+                          onChange(event.target.files && event.target.files[0])
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
                 <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2" onClick={() => removeCert(index)}>
                   <Trash2 className="h-4 w-4 text-destructive" />
                 </Button>
               </div>
             ))}
-            <Button type="button" variant="outline" onClick={() => appendCert({ name: '', issuingBody: '', year: '' })}>
+            <Button type="button" variant="outline" onClick={() => appendCert({ name: '', issuingBody: '', year: '', file: undefined })}>
               <PlusCircle className="mr-2 h-4 w-4" /> Add Certification
             </Button>
           </CardContent>
@@ -394,3 +411,4 @@ export function ProfileForm() {
     </Form>
   );
 }
+
