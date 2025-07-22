@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
@@ -51,8 +52,10 @@ function Footer() {
     <footer className="bg-white dark:bg-card">
       <div className="container py-8 text-center text-muted-foreground">
         <div className="flex justify-center items-center mb-4">
-          <span className="ml-2 text-lg font-bold text-foreground">
-            Developed by MuzoInTech (MIT)
+          <span className="ml-2 text-lg font-bold">
+            <span className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
+              Developed by MuzoInTech (MIT)
+            </span>
           </span>
         </div>
         <p className="text-sm">
