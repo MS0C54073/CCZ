@@ -20,6 +20,8 @@ interface JobFiltersProps {
   onProvinceChange: (province: string) => void;
   city: string;
   onCityChange: (city: string) => void;
+  jobTypes: string[];
+  onJobTypesChange: (types: string[]) => void;
   onReset: () => void;
 }
 
@@ -29,6 +31,7 @@ export function JobFilters({
   salaryRange, onSalaryRangeChange,
   province, onProvinceChange,
   city, onCityChange,
+  jobTypes, onJobTypesChange,
   onReset
 }: JobFiltersProps) {
 
@@ -38,6 +41,13 @@ export function JobFilters({
   };
 
   const provinces = Object.keys(jobFilters.locations);
+
+  const handleJobTypeChange = (jobType: string) => {
+    const newJobTypes = jobTypes.includes(jobType)
+      ? jobTypes.filter((t) => t !== jobType)
+      : [...jobTypes, jobType];
+    onJobTypesChange(newJobTypes);
+  };
 
   return (
     <Card className="sticky top-20">
@@ -100,8 +110,12 @@ export function JobFilters({
           <div className="space-y-2 pt-2">
             {jobFilters.jobType.map((type) => (
               <div key={type} className="flex items-center space-x-2">
-                <Checkbox id={type.toLowerCase()} />
-                <Label htmlFor={type.toLowerCase()} className="font-normal">
+                <Checkbox 
+                  id={type} 
+                  checked={jobTypes.includes(type)}
+                  onCheckedChange={() => handleJobTypeChange(type)}
+                />
+                <Label htmlFor={type} className="font-normal">
                   {type}
                 </Label>
               </div>

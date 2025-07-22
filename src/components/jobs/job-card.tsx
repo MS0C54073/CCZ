@@ -37,10 +37,15 @@ export function JobCard({ job }: JobCardProps) {
             className="rounded-lg border"
           />
           <div className="flex-1">
-            <CardTitle>{job.title}</CardTitle>
-            <CardDescription className="flex items-center gap-2 mt-1">
-              <Building className="h-4 w-4" /> {job.company}
-            </CardDescription>
+            <div className="flex justify-between items-start">
+                <div>
+                    <CardTitle>{job.title}</CardTitle>
+                    <CardDescription className="flex items-center gap-2 mt-1">
+                      <Building className="h-4 w-4" /> {job.company}
+                    </CardDescription>
+                </div>
+                 <Badge variant="outline">{job.type}</Badge>
+            </div>
             <div className="mt-2 flex flex-wrap gap-2">
               {job.tags.map((tag) => (
                 <Badge key={tag} variant="secondary">{tag}</Badge>
@@ -61,9 +66,6 @@ export function JobCard({ job }: JobCardProps) {
           <div className="flex items-center gap-2">
             <DollarSign className="h-4 w-4 text-primary" />
             <span>{job.salary}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline">{job.type}</Badge>
           </div>
           <div className="flex items-center gap-2 sm:col-span-3">
              <CalendarDays className="h-4 w-4 text-primary" />

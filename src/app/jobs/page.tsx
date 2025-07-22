@@ -6,7 +6,6 @@ import { JobFilters } from "@/components/jobs/job-filters";
 import { JobCard } from "@/components/jobs/job-card";
 import { jobs } from "@/lib/data";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { differenceInDays } from 'date-fns';
 
 const initialSalaryRange: [number, number] = [0, 100000];
 
@@ -15,6 +14,7 @@ export default function JobsPage() {
   const [keyword, setKeyword] = useState('');
   const [province, setProvince] = useState('');
   const [city, setCity] = useState('');
+  const [jobTypes, setJobTypes] = useState<string[]>([]);
 
   const filteredJobs = useMemo(() => {
     const thirtyDaysAgo = new Date();
@@ -39,15 +39,19 @@ export default function JobsPage() {
         const provinceMatch = province.trim() === '' || job.location.toLowerCase().includes(province.toLowerCase());
         const cityMatch = city.trim() === '' || job.location.toLowerCase().includes(city.toLowerCase());
 
-        return salaryMatch && keywordMatch && provinceMatch && cityMatch;
+        // Job Type filtering
+        const jobTypeMatch = jobTypes.length === 0 || jobTypes.includes(job.type);
+
+        return salaryMatch && keywordMatch && provinceMatch && cityMatch && jobTypeMatch;
       });
-  }, [salaryRange, keyword, province, city]);
+  }, [salaryRange, keyword, province, city, jobTypes]);
 
   const resetFilters = () => {
     setKeyword('');
     setProvince('');
     setCity('');
     setSalaryRange(initialSalaryRange);
+    setJobTypes([]);
   };
 
 
@@ -65,6 +69,8 @@ export default function JobsPage() {
               onProvinceChange={setProvince}
               city={city}
               onCityChange={setCity}
+              jobTypes={jobTypes}
+              onJobTypesChange={setJobTypes}
               onReset={resetFilters}
             />
           </aside>
