@@ -56,6 +56,18 @@ export function PostJobForm() {
   const form = useForm<PostJobFormValues>({
     resolver: zodResolver(postJobSchema),
     defaultValues: {
+      title: "",
+      company: "",
+      logo: null,
+      type: "",
+      province: "",
+      city: "",
+      description: "",
+      tasks: "",
+      taskExamples: "",
+      whoWeAreLookingFor: "",
+      willBeAPlus: "",
+      whatWeOffer: "",
       skills: [],
       salaryRange: [5000, 25000],
     },
