@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { PlusCircle, Trash2, Wand2, Loader2, FileText, Edit, Download } from 'lucide-react';
+import { PlusCircle, Trash2, Wand2, Loader2, FileText, Edit, Download, Eye } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { useRef, useState } from 'react';
 import { summarizeProfile } from '@/ai/flows/summarize-profile';
@@ -77,7 +77,7 @@ const defaultValues: ProfileFormValues = {
   portfolio: 'https://github.com/johndoe',
   experience: [{ title: 'Senior Software Engineer', company: 'Tech Solutions Ltd', years: '2020 - Present', description: 'Developing and maintaining web applications using modern technologies.' }],
   education: [{ degree: 'BSc in Computer Science', school: 'University of Zambia', year: '2020' }],
-  certifications: [{name: 'Certified Kubernetes Administrator', issuingBody: 'The Linux Foundation', year: '2022'}],
+  certifications: [{name: 'Certified Kubernetes Administrator', issuingBody: 'The Linux Foundation', year: '2022', file: undefined}],
   skills: [{ value: 'React' }, { value: 'TypeScript' }, {value: 'Node.js'}, {value: 'Next.js'}, {value: 'Firebase'}],
   summary: 'A highly motivated and experienced software engineer with a passion for building scalable and user-friendly applications. Proficient in a wide range of technologies and always eager to learn new things.',
   driversLicense: { hasLicense: true, licenseDetails: 'Class C' },
@@ -313,6 +313,10 @@ export function ProfileForm() {
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
+                            <Button variant="outline" size="sm" onClick={handleDownloadPdf} disabled={isDownloading}>
+                                <Eye className="mr-2 h-4 w-4" />
+                                Open
+                            </Button>
                             <Button variant="outline" size="sm" onClick={handleDownloadPdf} disabled={isDownloading}>
                                 {isDownloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
                                 Download PDF
