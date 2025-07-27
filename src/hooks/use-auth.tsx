@@ -35,8 +35,6 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
-const linkedInProvider = new OAuthProvider('linkedin.com');
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -55,6 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     setError(null);
     try {
+      const googleProvider = new GoogleAuthProvider();
       await signInWithPopup(auth, googleProvider);
     } catch (e: any) {
       setError(e.message);
@@ -68,6 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     setError(null);
     try {
+      const linkedInProvider = new OAuthProvider('linkedin.com');
       await signInWithPopup(auth, linkedInProvider);
     } catch (e: any) {
       setError(e.message);
@@ -110,6 +110,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await firebaseSignOut(auth);
     } catch (e: any) {
       setError(e.message);
+      throw e;
     } finally {
       setLoading(false);
     }
