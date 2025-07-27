@@ -24,6 +24,8 @@ interface LoginDialogProps {
 export function LoginDialog({ isOpen, onOpenChange }: LoginDialogProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [signUpEmail, setSignUpEmail] = useState('');
+  const [signUpPassword, setSignUpPassword] = useState('');
   const { signInWithGoogle, signInWithLinkedIn, signInWithEmail, signUpWithEmail, loading } = useAuth();
   const { toast } = useToast();
 
@@ -62,7 +64,7 @@ export function LoginDialog({ isOpen, onOpenChange }: LoginDialogProps) {
   const handleEmailSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signUpWithEmail(email, password);
+      await signUpWithEmail(signUpEmail, signUpPassword);
       onOpenChange(false);
       toast({ title: "Success", description: "Signed up and logged in." });
     } catch (e) {
@@ -137,11 +139,11 @@ export function LoginDialog({ isOpen, onOpenChange }: LoginDialogProps) {
             <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
                   <Label htmlFor="email-signup">Email</Label>
-                  <Input id="email-signup" type="email" placeholder="m@example.com" value={email} onChange={e => setEmail(e.target.value)} required />
+                  <Input id="email-signup" type="email" placeholder="m@example.com" value={signUpEmail} onChange={e => setSignUpEmail(e.target.value)} required />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="password-signup">Password</Label>
-                  <Input id="password-signup" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+                  <Input id="password-signup" type="password" value={signUpPassword} onChange={e => setSignUpPassword(e.target.value)} required />
                 </div>
                 <Button type="submit" disabled={loading}>
                   {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
