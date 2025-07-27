@@ -19,10 +19,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlusCircle, Trash2, Wand2, Loader2, FileText, Edit, Download } from 'lucide-react';
 import { Badge } from '../ui/badge';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { summarizeProfile } from '@/ai/flows/summarize-profile';
 import { useToast } from '@/hooks/use-toast';
 import { Checkbox } from '../ui/checkbox';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { ResumeTemplate } from './resume-template';
+
 
 const profileSchema = z.object({
   fullName: z.string().min(2, 'Full name is required'),
@@ -62,21 +66,21 @@ const profileSchema = z.object({
   summary: z.string().optional(),
 });
 
-type ProfileFormValues = z.infer<typeof profileSchema>;
+export type ProfileFormValues = z.infer<typeof profileSchema>;
 
 const defaultValues: ProfileFormValues = {
-  fullName: '',
-  email: '',
-  phone: '',
-  address: '',
-  nationalId: '',
-  portfolio: '',
-  experience: [{ title: '', company: '', years: '', description: '' }],
-  education: [{ degree: '', school: '', year: '' }],
-  certifications: [],
-  skills: [{ value: 'React' }, { value: 'TypeScript' }],
-  summary: '',
-  driversLicense: { hasLicense: false, licenseDetails: '' },
+  fullName: 'John Doe',
+  email: 'john.doe@example.com',
+  phone: '+260 977 123 456',
+  address: '123 Independence Avenue, Lusaka, Zambia',
+  nationalId: '123456/10/1',
+  portfolio: 'https://github.com/johndoe',
+  experience: [{ title: 'Senior Software Engineer', company: 'Tech Solutions Ltd', years: '2020 - Present', description: 'Developing and maintaining web applications using modern technologies.' }],
+  education: [{ degree: 'BSc in Computer Science', school: 'University of Zambia', year: '2020' }],
+  certifications: [{name: 'Certified Kubernetes Administrator', issuingBody: 'The Linux Foundation', year: '2022'}],
+  skills: [{ value: 'React' }, { value: 'TypeScript' }, {value: 'Node.js'}, {value: 'Next.js'}, {value: 'Firebase'}],
+  summary: 'A highly motivated and experienced software engineer with a passion for building scalable and user-friendly applications. Proficient in a wide range of technologies and always eager to learn new things.',
+  driversLicense: { hasLicense: true, licenseDetails: 'Class C' },
 };
 
 // Mock data for resume versions
@@ -92,6 +96,9 @@ export function ProfileForm() {
     defaultValues,
     mode: 'onChange',
   });
+  
+  const resumeRef = useRef<HTMLDivElement>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const {
     fields: expFields,
@@ -136,6 +143,55 @@ export function ProfileForm() {
     }
   };
 
+  const handleDownloadPdf = async () => {
+    const resumeElement = resumeRef.current;
+    if (!resumeElement) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Could not find the resume content to download.' });
+        return;
+    }
+
+    setIsDownloading(true);
+
+    try {
+        const canvas = await html2canvas(resumeElement, {
+            scale: 2, // Higher scale for better quality
+            useCORS: true,
+            logging: true,
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4',
+        });
+
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = canvasWidth / canvasHeight;
+        const widthInPdf = pdfWidth;
+        const heightInPdf = widthInPdf / ratio;
+        
+        // If the content is longer than one page, it will be scaled down.
+        // A more complex implementation would split the content across multiple pages.
+        if (heightInPdf > pdfHeight) {
+            console.warn("Content is longer than a single PDF page. It will be scaled to fit.");
+        }
+
+        pdf.addImage(imgData, 'PNG', 0, 0, widthInPdf, heightInPdf);
+        pdf.save(`${form.getValues('fullName').replace(' ', '_')}_CV.pdf`);
+        toast({ title: 'Success', description: 'Your resume has been downloaded.' });
+    } catch (error) {
+        console.error("Error generating PDF:", error);
+        toast({ variant: 'destructive', title: 'Error', description: 'Failed to generate PDF. Check the console for details.' });
+    } finally {
+        setIsDownloading(false);
+    }
+  };
+
+
   function onSubmit(data: ProfileFormValues) {
     console.log(data);
     toast({
@@ -145,6 +201,10 @@ export function ProfileForm() {
   }
 
   return (
+    <>
+    <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }}>
+      <ResumeTemplate ref={resumeRef} profile={form.watch()} />
+    </div>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <Card>
@@ -233,10 +293,10 @@ export function ProfileForm() {
         <Card>
             <CardHeader>
                 <div className="flex justify-between items-center">
-                  <div>
-                    <CardTitle>My Resume Versions</CardTitle>
-                    <CardDescription>Create and manage CVs tailored for different job types.</CardDescription>
-                  </div>
+                    <div className="space-y-1.5">
+                      <CardTitle>My Resume Versions</CardTitle>
+                      <CardDescription>Create and manage CVs tailored for different job types.</CardDescription>
+                    </div>
                     <Button type="button" variant="outline">
                         <PlusCircle className="mr-2 h-4 w-4" /> Create New Resume
                     </Button>
@@ -249,12 +309,12 @@ export function ProfileForm() {
                             <FileText className="h-6 w-6 text-primary" />
                             <div>
                                 <p className="font-semibold">{resume.name}</p>
-                                <p className="text-sm text-muted-foreground">Type: {resume.type}</p>
+                                <div className="text-sm text-muted-foreground">Type: {resume.type}</div>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Button variant="outline" size="sm">
-                                <Download className="mr-2 h-4 w-4" />
+                            <Button variant="outline" size="sm" onClick={handleDownloadPdf} disabled={isDownloading}>
+                                {isDownloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
                                 Download PDF
                             </Button>
                             <Button variant="ghost" size="icon">
@@ -420,5 +480,6 @@ export function ProfileForm() {
         </div>
       </form>
     </Form>
+    </>
   );
 }
