@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { PlusCircle, Trash2, Wand2, Loader2, FileText, Edit, Download, Eye } from 'lucide-react';
+import { PlusCircle, Trash2, Wand2, Loader2, FileText, Edit, Download, Eye, UploadCloud } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { useRef, useState } from 'react';
 import { summarizeProfile } from '@/ai/flows/summarize-profile';
@@ -26,6 +26,7 @@ import { Checkbox } from '../ui/checkbox';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ResumeTemplate } from './resume-template';
+import { parseCv } from '@/ai/flows/parse-cv';
 
 
 const profileSchema = z.object({
@@ -99,6 +100,7 @@ export function ProfileForm() {
   
   const resumeRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isParsingCv, setIsParsingCv] = useState(false);
 
   const {
     fields: expFields,
@@ -191,6 +193,55 @@ export function ProfileForm() {
     }
   };
 
+  const handleCvUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsParsingCv(true);
+    toast({ title: 'Parsing CV...', description: 'Please wait while we read your CV.' });
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async () => {
+        const cvDataUri = reader.result as string;
+        try {
+            const parsedData = await parseCv({ cvDataUri });
+            
+            // Merge existing data with parsed data, giving preference to parsed data
+            const currentData = form.getValues();
+            const newData = { ...currentData, ...parsedData };
+            
+            // To prevent errors, ensure arrays are not undefined
+            newData.experience = parsedData.experience || currentData.experience;
+            newData.education = parsedData.education || currentData.education;
+            newData.skills = parsedData.skills || currentData.skills;
+            newData.certifications = parsedData.certifications?.map(c => ({...c, file: undefined})) || currentData.certifications;
+
+            form.reset(newData);
+            
+            toast({
+                title: 'Success!',
+                description: 'Your profile has been auto-filled from your CV.',
+            });
+        } catch (error) {
+            console.error("CV Parsing Error:", error);
+            toast({
+                variant: 'destructive',
+                title: 'Parsing Failed',
+                description: 'We could not automatically read your CV. Please fill out the form manually.',
+            });
+        } finally {
+            setIsParsingCv(false);
+            // Reset file input
+            event.target.value = '';
+        }
+    };
+    reader.onerror = (error) => {
+        console.error("File Reader Error:", error);
+        toast({ variant: 'destructive', title: 'Error', description: 'Could not read the uploaded file.' });
+        setIsParsingCv(false);
+    };
+  };
 
   function onSubmit(data: ProfileFormValues) {
     console.log(data);
@@ -207,6 +258,30 @@ export function ProfileForm() {
     </div>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-4">
+                <UploadCloud className="h-8 w-8 text-primary"/>
+                <div>
+                    <CardTitle>Auto-fill from CV</CardTitle>
+                    <CardDescription>Upload your CV (PDF, DOCX) to automatically fill in your details.</CardDescription>
+                </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-4">
+                <Input id="cv-upload" type="file" className="hidden" onChange={handleCvUpload} accept=".pdf,.doc,.docx" disabled={isParsingCv}/>
+                <Button asChild variant="outline" className="w-full cursor-pointer" disabled={isParsingCv}>
+                    <label htmlFor="cv-upload">
+                        {isParsingCv ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <UploadCloud className="mr-2 h-4 w-4"/>}
+                        {isParsingCv ? 'Parsing...' : 'Upload CV & Auto-fill'}
+                    </label>
+                </Button>
+            </div>
+          </CardContent>
+        </Card>
+
         <Card>
           <CardHeader>
             <CardTitle>Personal Information</CardTitle>
