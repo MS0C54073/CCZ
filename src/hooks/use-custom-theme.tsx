@@ -3,48 +3,40 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode, useMemo } from 'react';
 
-type Theme = 'green' | 'blue' | 'black';
+type Theme = 'dark' | 'light';
 
 interface CustomThemeContextType {
   theme: Theme;
-  cycleTheme: () => void;
+  toggleTheme: () => void;
 }
 
 const CustomThemeContext = createContext<CustomThemeContextType | undefined>(undefined);
 
-const themes: Theme[] = ['black', 'green', 'blue'];
-
 export function CustomThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('black');
+  const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
     const storedTheme = localStorage.getItem('custom-theme') as Theme | null;
-    const initialTheme = storedTheme && themes.includes(storedTheme) ? storedTheme : 'black';
+    const initialTheme = storedTheme || 'light';
     setTheme(initialTheme);
   }, []);
 
   useEffect(() => {
     const root = document.documentElement;
-    
-    // Remove all theme classes
-    themes.forEach(t => root.classList.remove(`theme-${t}`));
-
-    // Add the new theme class
-    root.classList.add(`theme-${theme}`);
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
     localStorage.setItem('custom-theme', theme);
   }, [theme]);
 
 
-  const cycleTheme = useCallback(() => {
-    const currentIndex = themes.indexOf(theme);
-    const nextIndex = (currentIndex + 1) % themes.length;
-    setTheme(themes[nextIndex]);
-  }, [theme]);
+  const toggleTheme = useCallback(() => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  }, []);
 
   const value = useMemo(() => ({
     theme,
-    cycleTheme,
-  }), [theme, cycleTheme]);
+    toggleTheme,
+  }), [theme, toggleTheme]);
 
   return <CustomThemeContext.Provider value={value}>{children}</CustomThemeContext.Provider>;
 }
