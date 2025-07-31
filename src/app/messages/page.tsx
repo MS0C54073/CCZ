@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 
 export default function MessagesPage() {
-  const { notifications, markAsRead } = useNotifications();
+  const { notifications, markAsRead, deleteNotification } = useNotifications();
 
   return (
     <div className="container mx-auto py-8 px-4 md:px-6 max-w-4xl">
@@ -51,7 +51,7 @@ export default function MessagesPage() {
                       Mark as Read
                     </Button>
                   )}
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => deleteNotification(notification.id)}>
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
                 </div>

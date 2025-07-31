@@ -14,6 +14,7 @@ interface NotificationsContextType {
   notifications: Notification[];
   addNotification: (notification: Notification) => void;
   markAsRead: (id: string) => void;
+  deleteNotification: (id: string) => void;
 }
 
 const NotificationsContext = createContext<NotificationsContextType | undefined>(undefined);
@@ -31,10 +32,15 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const deleteNotification = useCallback((id: string) => {
+    setNotifications(prev => prev.filter(n => n.id !== id));
+  }, []);
+
   const value = {
     notifications,
     addNotification,
     markAsRead,
+    deleteNotification,
   };
 
   return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;
