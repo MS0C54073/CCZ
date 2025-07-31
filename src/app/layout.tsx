@@ -30,8 +30,8 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <NProgressProvider>
-          <CustomThemeProvider>
+        <CustomThemeProvider>
+          <NProgressProvider>
             <AuthProvider>
               <JobsProvider>
                 <NotificationsProvider>
@@ -44,8 +44,8 @@ export default function RootLayout({
                 </NotificationsProvider>
               </JobsProvider>
             </AuthProvider>
-          </CustomThemeProvider>
-        </NProgressProvider>
+          </NProgressProvider>
+        </CustomThemeProvider>
       </body>
     </html>
   );
