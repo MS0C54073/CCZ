@@ -29,7 +29,7 @@ import { ResumeTemplate } from './resume-template';
 import { parseCv } from '@/ai/flows/parse-cv';
 
 
-const profileSchema = z.object({
+export const profileSchema = z.object({
   fullName: z.string().min(2, 'Full name is required'),
   email: z.string().email(),
   phone: z.string().optional(),

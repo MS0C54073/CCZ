@@ -1,11 +1,10 @@
+
 'use server';
 
 /**
  * @fileOverview An AI agent that summarizes a candidate's profile.
  *
  * - summarizeProfile - A function that summarizes the profile.
- * - SummarizeProfileInput - The input type for the summarizeProfile function.
- * - SummarizeProfileOutput - The return type for the summarizeProfile function.
  */
 
 import {ai} from '@/ai/genkit';
@@ -16,14 +15,13 @@ const SummarizeProfileInputSchema = z.object({
     .string()
     .describe('The text of the candidate profile to summarize.'),
 });
-export type SummarizeProfileInput = z.infer<typeof SummarizeProfileInputSchema>;
 
 const SummarizeProfileOutputSchema = z.object({
   summary: z.string().describe('A summary of the candidate profile.'),
 });
-export type SummarizeProfileOutput = z.infer<typeof SummarizeProfileOutputSchema>;
+type SummarizeProfileOutput = z.infer<typeof SummarizeProfileOutputSchema>;
 
-export async function summarizeProfile(input: SummarizeProfileInput): Promise<SummarizeProfileOutput> {
+export async function summarizeProfile(input: z.infer<typeof SummarizeProfileInputSchema>): Promise<SummarizeProfileOutput> {
   return summarizeProfileFlow(input);
 }
 

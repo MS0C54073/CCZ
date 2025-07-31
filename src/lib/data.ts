@@ -1,3 +1,4 @@
+
 import { BarChart, Briefcase, DollarSign, MapPin, Users, TrendingUp } from 'lucide-react';
 import { subDays } from 'date-fns';
 

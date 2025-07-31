@@ -5,8 +5,6 @@
  * @fileOverview An AI agent that parses a CV and extracts structured data.
  *
  * - parseCv - A function that handles the CV parsing process.
- * - ParseCvInput - The input type for the parseCv function.
- * - ParseCvOutput - The return type for the parseCv function.
  */
 
 import {ai} from '@/ai/genkit';
@@ -19,7 +17,7 @@ const ParseCvInputSchema = z.object({
       "A user's CV file, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
 });
-export type ParseCvInput = z.infer<typeof ParseCvInputSchema>;
+type ParseCvInput = z.infer<typeof ParseCvInputSchema>;
 
 const ExperienceSchema = z.object({
   title: z.string().describe('The job title.'),
@@ -52,7 +50,7 @@ const ParseCvOutputSchema = z.object({
   education: z.array(EducationSchema).optional().describe('A list of education entries.'),
   certifications: z.array(CertificationSchema).optional().describe('A list of certifications.'),
 });
-export type ParseCvOutput = z.infer<typeof ParseCvOutputSchema>;
+type ParseCvOutput = z.infer<typeof ParseCvOutputSchema>;
 
 export async function parseCv(input: ParseCvInput): Promise<ParseCvOutput> {
   return parseCvFlow(input);

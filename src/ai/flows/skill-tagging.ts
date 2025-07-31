@@ -1,11 +1,10 @@
+
 'use server';
 
 /**
  * @fileOverview Provides AI-suggested skill tags for job postings based on the job description.
  *
  * - suggestSkillTags - A function that suggests skill tags for a given job description.
- * - SuggestSkillTagsInput - The input type for the suggestSkillTags function.
- * - SuggestSkillTagsOutput - The return type for the suggestSkillTags function.
  */
 
 import {ai} from '@/ai/genkit';
@@ -14,16 +13,15 @@ import {z} from 'genkit';
 const SuggestSkillTagsInputSchema = z.object({
   jobDescription: z.string().describe('The description of the job posting.'),
 });
-export type SuggestSkillTagsInput = z.infer<typeof SuggestSkillTagsInputSchema>;
 
 const SuggestSkillTagsOutputSchema = z.object({
   suggestedSkills: z
     .array(z.string())
     .describe('An array of suggested skill tags for the job posting.'),
 });
-export type SuggestSkillTagsOutput = z.infer<typeof SuggestSkillTagsOutputSchema>;
+type SuggestSkillTagsOutput = z.infer<typeof SuggestSkillTagsOutputSchema>;
 
-export async function suggestSkillTags(input: SuggestSkillTagsInput): Promise<SuggestSkillTagsOutput> {
+export async function suggestSkillTags(input: z.infer<typeof SuggestSkillTagsInputSchema>): Promise<SuggestSkillTagsOutput> {
   return suggestSkillTagsFlow(input);
 }
 
