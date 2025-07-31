@@ -37,9 +37,9 @@ function Section({ title, items }: { title: string; items: string[] }) {
     );
 }
 
-export default function JobDetailPage({ params }: JobDetailPageProps) {
+export default function JobDetailPage({ params: { id } }: JobDetailPageProps) {
   const { jobs } = useJobs();
-  const job = jobs.find((j) => j.id === params.id);
+  const job = jobs.find((j) => j.id === id);
   const { user } = useAuth();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
 
