@@ -1,129 +1,27 @@
-🇿🇲 CCZ - Career Connect Zambia
-📌 Overview
-CCZ (Career Connect Zambia) is a Zambian-tailored job portal web application built to empower job seekers and employers with modern tools to find opportunities and talent across all industries — from ICT to mining, healthcare, NGOs, government jobs, and more.
+# Title: I Was Tired of Rewriting My Resume for Every Job in Zambia—So I Started Building a Solution
 
-This platform is mobile-first, smart-search enabled, and resume-driven — designed to solve one frustrating problem many Zambians (including myself) face:
+If you’ve ever applied for a job in Zambia, you know the drill: find a promising opportunity, then spend hours editing your resume to fit the role. Whether it’s a position with an NGO in Lusaka or a tech opening in Kitwe, the process is tedious and repetitive.
 
-“Why do I have to recreate my resume every time I apply for a job?”
+I decided to do something about it.
 
-With CCZ, you create your professional profile once and use it to:
+Career Connect Zambia (CCZ) is a prototype of a smarter job platform built for the Zambian market.
 
-Automatically generate downloadable PDF resumes
+The vision is simple:
+Create your profile once. Apply to multiple jobs effortlessly.
 
-Apply to multiple jobs without retyping the same information
+🔹 One-click job applications
+🔹 Automatically generated, tailored PDF resumes
+🔹 Smart job alerts based on your skills
 
-Filter jobs by location, field, or salary
+Although it’s still in development, CCZ aims to make life easier for both job seekers and employers. Candidates save time and energy, while companies benefit from consistent, AI-enhanced profiles that make recruitment faster and more effective.
 
-Receive smart alerts for job openings that match your profile
+This project is built using Next.js, React, Firebase, and Genkit for AI—with heavy use of Vibe Coding, an AI-assisted development approach where natural language prompts are used to generate functional code via large language models. It’s been a game-changer in speeding up development and testing ideas.
 
-🎯 Why I Built This
-As a Zambian professional, I was tired of constantly re-typing and redesigning my resume for every single job application. Whether it was for an NGO role in Lusaka, an internship in Kitwe, or a government post in Ndola — it always meant the same: hours spent copying, pasting, formatting, editing dates, fixing typos...
+The prototype is open source, and I’m looking for collaborators!
+If you're a developer who's experienced this problem or just wants to help shape better job tech for Zambia, I’d love for you to contribute.
 
-So I decided: no more.
+👉 Check out the repo: [GitHub link]
 
-CCZ is built to streamline that entire process:
+Let’s eliminate resume fatigue—and build a platform that truly connects talent with opportunity.
 
-One clean, professional profile
-
-Automatic resume generation
-
-One-click job applications
-
-Smart, local job discovery
-
-This isn't just for me — it’s for everyone in Zambia who’s ever struggled with resume fatigue or inaccessible job systems.
-
----
-
-### 🚧 **Project Status: Demo Prototype** 🚧
-
-**Please Note:** This application is currently a demonstration prototype. Many features are still under active development. The primary goal is to showcase the core functionalities and user interface.
-
-**What's working right now:**
-*   **User Authentication:** Sign up and log in with Email/Password, Google, and LinkedIn.
-*   **Job Discovery:** Browse and search for jobs with filters for keywords, location (province/city), and salary. Jobs are sorted by the most recent posting date and listings older than 30 days are automatically removed.
-*   **Job Posting:** Employers can fill out a form to post a new job, including company logo uploads. The form uses AI to suggest relevant skills based on the job description.
-*   **Profile Management:** Job seekers can create and edit a detailed professional profile, including personal information, work experience, education, skills, certifications, and driver's license details. An AI-powered summary can be generated based on the profile content.
-*   **Dashboards:**
-    *   **Job Seeker:** View application history and track profile completion percentage with dynamic suggestions for improvement.
-    *   **Recruiter:** View and manage posted jobs, including an option to delete listings.
-
----
-
-🚀 Features
-For Job Seekers
-Create a professional profile once, use it for every job
-
-Automatically generate and download PDF CVs
-
-Apply to jobs instantly without retyping
-
-Get real-time alerts for jobs that match your skills
-
-Filter jobs by province, district, category, salary
-
-Save job listings, track applications, and get interview invites
-
-Multiple resume templates based on job types (ICT, NGO, healthcare, etc.)
-
-For Employers
-Register a company and post unlimited job openings
-
-Search candidates by skills, education, or experience
-
-Invite applicants for interviews directly through the platform
-
-View detailed analytics: job views, application rates, and performance
-
-For Admins
-Approve companies and monitor activity
-
-Feature jobs and manage announcements
-
-Access platform-wide analytics and reports
-
-🌐 Tech Stack
-Frontend: React.js (mobile-first), Tailwind CSS
-
-Backend: Firebase (Firestore, Auth, Functions, Storage, Messaging)
-
-Extras: PDF resume generation, AI job matching engine, real-time predictive search, optional WhatsApp/SMS integration
-
-🧱 Firebase Collections
-users – Job seekers and employers
-
-resumes – Custom resume records per user
-
-jobs – Job listings with metadata
-
-applications – Job applications, statuses, attachments
-
-companies – Employer profiles
-
-notifications – Alerts for job events
-
-messages – Chat between employers and applicants (optional)
-
-🎯 Mission
-To eliminate resume repetition, make job applications easier for every Zambian, and create a smarter way for companies to find qualified, verified local talent.
-
-🛠️ Getting Started (for Developers)
-Clone the repository
-
-Set up Firebase project and replace .env with your config
-
-Run the local dev server:
-
-```bash
-npm install
-npm run dev
-```
-
-Deploy with:
-
-```bash
-firebase deploy
-```
-
-🙌 Contribute
-If you're a developer, designer, or recruiter who wants to help improve employment systems in Zambia, you're welcome to fork this repo, build features, or just share ideas.
+#Zambia #OpenSource #CareerTech #DeveloperCommunity #ReactJS #NextJS #Firebase #JobSearch #HRTech #VibeCoding #AIinDev
