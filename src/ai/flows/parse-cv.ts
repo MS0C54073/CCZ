@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -11,7 +12,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const ParseCvInputSchema = z.object({
+const ParseCvInputSchema = z.object({
   cvDataUri: z
     .string()
     .describe(
@@ -20,26 +21,26 @@ export const ParseCvInputSchema = z.object({
 });
 export type ParseCvInput = z.infer<typeof ParseCvInputSchema>;
 
-export const ExperienceSchema = z.object({
+const ExperienceSchema = z.object({
   title: z.string().describe('The job title.'),
   company: z.string().describe('The company name.'),
   years: z.string().describe('The employment dates (e.g., "2020 - Present" or "Jan 2021 - Dec 2022").'),
   description: z.string().describe('A description of the role and responsibilities.'),
 });
 
-export const EducationSchema = z.object({
+const EducationSchema = z.object({
   degree: z.string().describe('The degree or qualification obtained.'),
   school: z.string().describe('The name of the school or university.'),
   year: z.string().describe('The year of graduation or completion.'),
 });
 
-export const CertificationSchema = z.object({
+const CertificationSchema = z.object({
     name: z.string().describe('The name of the certification.'),
     issuingBody: z.string().describe('The organization that issued the certification.'),
     year: z.string().describe('The year the certification was obtained.'),
 });
 
-export const ParseCvOutputSchema = z.object({
+const ParseCvOutputSchema = z.object({
   fullName: z.string().optional().describe("The user's full name."),
   email: z.string().optional().describe("The user's email address."),
   phone: z.string().optional().describe("The user's phone number."),
