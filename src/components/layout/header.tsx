@@ -1,11 +1,25 @@
 
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Bell, MessageSquare, Briefcase } from 'lucide-react';
+import { Menu, Bell, MessageSquare } from 'lucide-react';
 import { AuthWidget } from './auth-widget';
 import { ThemeToggle } from './theme-toggle';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { useNotifications } from '@/hooks/use-notifications';
+import { formatDistanceToNow } from 'date-fns';
+import { Badge } from '../ui/badge';
+import { useRouter } from 'next/navigation';
 
 export function Header() {
   const navLinks = [
@@ -13,6 +27,24 @@ export function Header() {
     { href: '/jobs', label: 'Jobs' },
     { href: '/profile', label: 'My Profile' },
   ];
+
+  const { notifications, markAsRead } = useNotifications();
+  const router = useRouter();
+  const unreadCount = notifications.filter(n => !n.read).length;
+
+  const handleNotificationClick = (notificationId: string) => {
+    markAsRead(notificationId);
+    router.push('/messages');
+  };
+
+  const handleViewAllClick = () => {
+    notifications.forEach(n => {
+      if (!n.read) {
+        markAsRead(n.id);
+      }
+    });
+    router.push('/messages');
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -82,18 +114,36 @@ export function Header() {
                 <p>Notifications</p>
               </TooltipContent>
             </Tooltip>
-            
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="hidden sm:inline-flex relative">
                   <MessageSquare className="h-5 w-5" />
+                  {unreadCount > 0 && (
+                    <Badge variant="destructive" className="absolute -top-1 -right-1 h-4 w-4 justify-center rounded-full p-0">{unreadCount}</Badge>
+                  )}
                   <span className="sr-only">Messages</span>
                 </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Messages</p>
-              </TooltipContent>
-            </Tooltip>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-80" align="end">
+                <DropdownMenuLabel>Messages</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {notifications.slice(0, 4).map(notification => (
+                  <DropdownMenuItem key={notification.id} onSelect={() => handleNotificationClick(notification.id)} className="flex flex-col items-start gap-1 whitespace-normal">
+                    <p className={`text-sm ${!notification.read ? 'font-bold' : ''}`}>
+                      {notification.message.substring(0, 70)}...
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {formatDistanceToNow(new Date(notification.date), { addSuffix: true })}
+                    </p>
+                  </DropdownMenuItem>
+                ))}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={handleViewAllClick} className="justify-center">
+                  View All Messages
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             <ThemeToggle />
 

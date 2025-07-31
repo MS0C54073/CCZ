@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/header';
 import { AuthProvider } from '@/hooks/use-auth';
 import { CustomThemeProvider } from '@/hooks/use-custom-theme';
 import { JobsProvider } from '@/hooks/use-jobs';
+import { NotificationsProvider } from '@/hooks/use-notifications';
 
 export const metadata: Metadata = {
   title: 'Career Compass Zambia (CCZ)',
@@ -31,12 +32,14 @@ export default function RootLayout({
         <CustomThemeProvider>
           <AuthProvider>
             <JobsProvider>
-              <div className="relative flex min-h-screen flex-col bg-background">
-                <Header />
-                <main className="flex-1">{children}</main>
-                <Footer />
-              </div>
-              <Toaster />
+              <NotificationsProvider>
+                <div className="relative flex min-h-screen flex-col bg-background">
+                  <Header />
+                  <main className="flex-1">{children}</main>
+                  <Footer />
+                </div>
+                <Toaster />
+              </NotificationsProvider>
             </JobsProvider>
           </AuthProvider>
         </CustomThemeProvider>
