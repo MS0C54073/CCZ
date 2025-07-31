@@ -7,6 +7,7 @@ import { AuthProvider } from '@/hooks/use-auth';
 import { CustomThemeProvider } from '@/hooks/use-custom-theme';
 import { JobsProvider } from '@/hooks/use-jobs';
 import { NotificationsProvider } from '@/hooks/use-notifications';
+import NProgressProvider from '@/components/layout/nprogress-provider';
 
 export const metadata: Metadata = {
   title: 'Career Compass Zambia (CCZ)',
@@ -29,20 +30,22 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <CustomThemeProvider>
-          <AuthProvider>
-            <JobsProvider>
-              <NotificationsProvider>
-                <div className="relative flex min-h-screen flex-col bg-background">
-                  <Header />
-                  <main className="flex-1">{children}</main>
-                  <Footer />
-                </div>
-                <Toaster />
-              </NotificationsProvider>
-            </JobsProvider>
-          </AuthProvider>
-        </CustomThemeProvider>
+        <NProgressProvider>
+          <CustomThemeProvider>
+            <AuthProvider>
+              <JobsProvider>
+                <NotificationsProvider>
+                  <div className="relative flex min-h-screen flex-col bg-background">
+                    <Header />
+                    <main className="flex-1">{children}</main>
+                    <Footer />
+                  </div>
+                  <Toaster />
+                </NotificationsProvider>
+              </JobsProvider>
+            </AuthProvider>
+          </CustomThemeProvider>
+        </NProgressProvider>
       </body>
     </html>
   );
