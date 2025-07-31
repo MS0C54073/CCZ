@@ -27,6 +27,7 @@ import { jobFilters } from "@/lib/data";
 import { Slider } from "../ui/slider";
 import { useRouter } from "next/navigation";
 import { useJobs } from "@/hooks/use-jobs";
+import { useAuth } from "@/hooks/use-auth";
 
 const postJobSchema = z.object({
   title: z.string().min(5, "Job title must be at least 5 characters."),
@@ -52,6 +53,7 @@ export function PostJobForm() {
   const { toast } = useToast();
   const router = useRouter();
   const { addJob } = useJobs();
+  const { user } = useAuth();
 
   const form = useForm<PostJobFormValues>({
     resolver: zodResolver(postJobSchema),
@@ -134,7 +136,11 @@ export function PostJobForm() {
       description: "Your job listing is now live.",
     });
     
-    router.push('/jobs');
+    if (user) {
+        router.push('/dashboard');
+    } else {
+        router.push('/dashboard?action=login');
+    }
   }
 
   return (

@@ -18,6 +18,7 @@ import {
   signOut as firebaseSignOut,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from 'firebase/auth';
 import { app } from '@/lib/firebase';
 
@@ -27,7 +28,7 @@ interface AuthContextType {
   signInWithGoogle: () => Promise<void>;
   signInWithLinkedIn: () => Promise<void>;
   signInWithEmail: (email: string, pass: string) => Promise<void>;
-  signUpWithEmail: (email: string, pass: string) => Promise<void>;
+  signUpWithEmail: (email: string, pass: string, fullName: string) => Promise<void>;
   signOut: () => Promise<void>;
   error: string | null;
 }
@@ -90,11 +91,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
   
-  const signUpWithEmail = async (email: string, pass: string) => {
+  const signUpWithEmail = async (email: string, pass: string, fullName: string) => {
     setLoading(true);
     setError(null);
     try {
-      await createUserWithEmailAndPassword(auth, email, pass);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+      if (userCredential.user) {
+        await updateProfile(userCredential.user, {
+          displayName: fullName,
+        });
+        // Manually update the user state because onAuthStateChanged might not fire immediately
+        setUser({ ...userCredential.user, displayName: fullName });
+      }
     } catch (e: any) {
       setError(e.message);
       throw e;
