@@ -28,6 +28,8 @@ import { Slider } from "../ui/slider";
 import { useRouter } from "next/navigation";
 import { useJobs } from "@/hooks/use-jobs";
 import { useAuth } from "@/hooks/use-auth";
+import { storage } from "@/lib/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const postJobSchema = z.object({
   title: z.string().min(5, "Job title must be at least 5 characters."),
@@ -50,6 +52,7 @@ type PostJobFormValues = z.infer<typeof postJobSchema>;
 
 export function PostJobForm() {
   const [isSuggesting, setIsSuggesting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
   const { addJob } = useJobs();
@@ -108,12 +111,36 @@ export function PostJobForm() {
     }
   };
 
-  function onSubmit(data: PostJobFormValues) {
+  async function onSubmit(data: PostJobFormValues) {
+    setIsSubmitting(true);
+    let logoUrl = 'https://placehold.co/100x100.png';
+
+    if (data.logo) {
+        const logoFile = data.logo;
+        const storageRef = ref(storage, `logos/${Date.now()}_${logoFile.name}`);
+        try {
+            toast({ title: "Uploading logo..." });
+            const snapshot = await uploadBytes(storageRef, logoFile);
+            logoUrl = await getDownloadURL(snapshot.ref);
+            toast({ title: "Logo uploaded successfully!" });
+        } catch (error) {
+            console.error("Logo upload error:", error);
+            toast({
+                variant: "destructive",
+                title: "Logo Upload Failed",
+                description: "Could not upload the company logo. Please try again.",
+            });
+            setIsSubmitting(false);
+            return;
+        }
+    }
+
+
     const newJob = {
       id: new Date().getTime().toString(), // Not a great ID, but works for prototype
       title: data.title,
       company: data.company,
-      logo: 'https://placehold.co/100x100.png', // Placeholder
+      logo: logoUrl, 
       location: `${data.city}, ${data.province}`,
       salary: `ZMW ${data.salaryRange[0].toLocaleString()} - ZMW ${data.salaryRange[1].toLocaleString()}`,
       type: data.type,
@@ -136,6 +163,8 @@ export function PostJobForm() {
       description: "Your job listing is now live.",
     });
     
+    setIsSubmitting(false);
+    
     if (user) {
         router.push('/dashboard');
     } else {
@@ -156,11 +185,11 @@ export function PostJobForm() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField control={form.control} name="company" render={({ field }) => ( <FormItem><FormLabel>Company Name</FormLabel><FormControl><Input placeholder="e.g., Ministry of Education" {...field} /></FormControl><FormMessage /></FormItem> )} />
-               <FormField control={form.control} name="logo" render={({ field }) => ( 
+               <FormField control={form.control} name="logo" render={({ field: { onChange, value, ...rest } }) => ( 
                 <FormItem>
                   <FormLabel>Company Logo</FormLabel>
                   <FormControl>
-                    <Input type="file" accept="image/*" onChange={(e) => field.onChange(e.target.files?.[0])} />
+                    <Input type="file" accept="image/*" onChange={(e) => onChange(e.target.files?.[0])} {...rest} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -314,7 +343,10 @@ export function PostJobForm() {
               <FormMessage />
             </FormItem>
             <div className="flex justify-end">
-              <Button type="submit">Post Job</Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : null}
+                Post Job
+                </Button>
             </div>
           </form>
         </Form>
