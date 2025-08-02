@@ -16,12 +16,12 @@ import { useToast } from '@/hooks/use-toast';
 import { generateCoverLetter } from '@/ai/flows/generate-cover-letter';
 import { defaultValues as userProfile } from '@/components/profile/profile-form';
 
-export default function ApplyPage({ params }: { params: { id: string } }) {
+export default function ApplyPage({ params: { id } }: { params: { id: string } }) {
   const { user, loading } = useAuth();
   const router = useRouter();
   const { addNotification } = useNotifications();
   const { jobs } = useJobs();
-  const job = jobs.find(j => j.id === params.id);
+  const job = jobs.find(j => j.id === id);
   const { toast } = useToast();
 
   const [coverLetter, setCoverLetter] = useState('');
@@ -31,9 +31,9 @@ export default function ApplyPage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push(`/jobs/${params.id}`);
+      router.push(`/jobs/${id}`);
     }
-  }, [user, loading, router, params.id]);
+  }, [user, loading, router, id]);
 
   const handleGenerateCoverLetter = async () => {
     if (!job || !userProfile) {
@@ -120,7 +120,7 @@ export default function ApplyPage({ params }: { params: { id: string } }) {
     <div className="container mx-auto py-12 px-4 md:px-6 flex justify-center">
       <Card className="max-w-3xl w-full">
         <CardHeader>
-          <Link href={`/jobs/${params.id}`} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-4">
+          <Link href={`/jobs/${id}`} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-4">
               <ArrowLeft className="w-4 h-4" />
               Back to Job Details
           </Link>
