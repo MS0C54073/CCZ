@@ -504,21 +504,18 @@ export const recruiterJobs = [
         title: 'Secondary School Teacher',
         status: 'Open',
         applicants: 42,
-        interviews: 5,
     },
     {
         id: '2',
         title: 'Accountant',
         status: 'Open',
         applicants: 31,
-        interviews: 3,
     },
     {
         id: '3',
         title: 'Civil Engineer',
         status: 'Closed',
         applicants: 58,
-        interviews: 8,
     }
 ];
 
