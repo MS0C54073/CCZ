@@ -2,7 +2,7 @@
 'use client';
 
 import { useAuth } from '@/hooks/use-auth';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,9 @@ import { useToast } from '@/hooks/use-toast';
 import { generateCoverLetter } from '@/ai/flows/generate-cover-letter';
 import { defaultValues as userProfile } from '@/components/profile/profile-form';
 
-export default function ApplyPage({ params: { id } }: { params: { id: string } }) {
+export default function ApplyPage() {
+  const params = useParams();
+  const id = params.id as string;
   const { user, loading } = useAuth();
   const router = useRouter();
   const { addNotification } = useNotifications();
