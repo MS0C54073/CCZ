@@ -73,7 +73,7 @@ This project is built using Next.js, React, Firebase, and Genkit for AI—with h
 The prototype is open source, and I’m looking for collaborators!
 If you're a developer who's experienced this problem or just wants to help shape better job tech for Zambia, I’d love for you to contribute.
 
-👉 Check out the repo: [GitHub link]
+👉 Check out the repo: https://github.com/MS0C54073/CCZ
 
 Let’s eliminate resume fatigue—and build a platform that truly connects talent with opportunity.
 
