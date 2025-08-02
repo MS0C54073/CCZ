@@ -70,7 +70,6 @@ function HeroSection() {
             width="600"
             height="400"
             alt="Hero"
-            data-ai-hint="professional african people"
             className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
           />
         </div>

@@ -14,23 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { generateCoverLetter } from '@/ai/flows/generate-cover-letter';
-import { profileSchema as ProfileSchema, type ProfileFormValues } from '@/components/profile/profile-form';
-
-// Mock user profile data. In a real app, this would be fetched from a database.
-const userProfile: ProfileFormValues = {
-  fullName: "John Doe",
-  email: "john.doe@example.com",
-  phone: "+260977123456",
-  address: "123 Independence Avenue, Lusaka",
-  nationalId: "123456/10/1",
-  portfolio: "https://github.com/johndoe",
-  experience: [{ title: 'Senior Software Engineer', company: 'Tech Solutions Ltd', years: '2020 - Present', description: 'Developing and maintaining web applications using modern technologies.' }],
-  education: [{ degree: 'BSc in Computer Science', school: 'University of Zambia', year: '2020' }],
-  certifications: [{name: 'Certified Kubernetes Administrator', issuingBody: 'The Linux Foundation', year: '2022', file: undefined}],
-  skills: [{ value: 'React' }, { value: 'TypeScript' }, {value: 'Node.js'}, {value: 'Next.js'}, {value: 'Firebase'}],
-  summary: 'A highly motivated and experienced software engineer with a passion for building scalable and user-friendly applications. Proficient in a wide range of technologies and always eager to learn new things.',
-  driversLicense: { hasLicense: true, licenseDetails: 'Class C' },
-};
+import { defaultValues as userProfile } from '@/components/profile/profile-form';
 
 export default function ApplyPage({ params }: { params: { id: string } }) {
   const { user, loading } = useAuth();
