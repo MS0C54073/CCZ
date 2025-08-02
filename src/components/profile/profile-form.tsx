@@ -69,7 +69,7 @@ export const profileSchema = z.object({
 
 export type ProfileFormValues = z.infer<typeof profileSchema>;
 
-const defaultValues: ProfileFormValues = {
+export const defaultValues: ProfileFormValues = {
   fullName: 'John Doe',
   email: 'john.doe@example.com',
   phone: '+260 977 123 456',

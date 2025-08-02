@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { JobFilters } from "@/components/jobs/job-filters";
 import { JobCard } from "@/components/jobs/job-card";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from "@/components/ui/pagination";
@@ -44,6 +44,8 @@ export default function JobsPage() {
   const [jobTypes, setJobTypes] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const debouncedKeyword = useMemo(() => keyword, [keyword]);
+
   const filteredJobs = useMemo(() => {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -56,10 +58,10 @@ export default function JobsPage() {
         const salaryMatchValue = parseInt(salaryString, 10);
         const salaryMatch = isNaN(salaryMatchValue) || (salaryMatchValue >= salaryRange[0] && salaryMatchValue <= salaryRange[1]);
         
-        const keywordMatch = keyword.trim() === '' ||
-          job.title.toLowerCase().includes(keyword.toLowerCase()) ||
-          job.company.toLowerCase().includes(keyword.toLowerCase()) ||
-          job.description.toLowerCase().includes(keyword.toLowerCase());
+        const keywordMatch = debouncedKeyword.trim() === '' ||
+          job.title.toLowerCase().includes(debouncedKeyword.toLowerCase()) ||
+          job.company.toLowerCase().includes(debouncedKeyword.toLowerCase()) ||
+          job.description.toLowerCase().includes(debouncedKeyword.toLowerCase());
           
         const provinceMatch = province.trim() === '' || job.location.toLowerCase().includes(province.toLowerCase());
         const cityMatch = city.trim() === '' || job.location.toLowerCase().includes(city.toLowerCase());
@@ -68,7 +70,7 @@ export default function JobsPage() {
 
         return salaryMatch && keywordMatch && provinceMatch && cityMatch && jobTypeMatch;
       });
-  }, [jobs, salaryRange, keyword, province, city, jobTypes]);
+  }, [jobs, salaryRange, debouncedKeyword, province, city, jobTypes]);
 
   useEffect(() => {
     setLoading(true);
@@ -77,7 +79,7 @@ export default function JobsPage() {
       setLoading(false);
     }, 500); 
     return () => clearTimeout(timer);
-  }, [salaryRange, keyword, province, city, jobTypes]);
+  }, [salaryRange, debouncedKeyword, province, city, jobTypes]);
 
   const resetFilters = () => {
     setKeyword('');

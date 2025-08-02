@@ -19,9 +19,8 @@ const SuggestSkillTagsOutputSchema = z.object({
     .array(z.string())
     .describe('An array of suggested skill tags for the job posting.'),
 });
-type SuggestSkillTagsOutput = z.infer<typeof SuggestSkillTagsOutputSchema>;
 
-export async function suggestSkillTags(input: z.infer<typeof SuggestSkillTagsInputSchema>): Promise<SuggestSkillTagsOutput> {
+export async function suggestSkillTags(input: z.infer<typeof SuggestSkillTagsInputSchema>): Promise<z.infer<typeof SuggestSkillTagsOutputSchema>> {
   return suggestSkillTagsFlow(input);
 }
 
