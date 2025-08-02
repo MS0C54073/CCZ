@@ -13,6 +13,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
 import { LoginDialog } from "@/components/layout/login-dialog";
 import { useJobs } from "@/hooks/use-jobs";
+import { useClientOnlyValue } from "@/hooks/use-client-only-value";
 
 type JobDetailPageProps = {
   params: {
@@ -42,6 +43,9 @@ export default function JobDetailPage({ params: { id } }: JobDetailPageProps) {
   const job = jobs.find((j) => j.id === id);
   const { user } = useAuth();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+  const postedDate = useClientOnlyValue(
+    job ? formatDistanceToNow(new Date(job.postedDate), { addSuffix: true }) : ""
+  );
 
   if (!job) {
     notFound();
@@ -116,7 +120,7 @@ export default function JobDetailPage({ params: { id } }: JobDetailPageProps) {
                           <CalendarDays className="w-5 h-5 text-primary" />
                           <div>
                               <p className="font-semibold">Posted</p>
-                              <p className="text-muted-foreground">{formatDistanceToNow(new Date(job.postedDate), { addSuffix: true })}</p>
+                              <p className="text-muted-foreground">{postedDate}</p>
                           </div>
                       </div>
                       <div className="pt-4">

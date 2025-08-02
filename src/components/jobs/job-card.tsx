@@ -12,6 +12,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
 import { LoginDialog } from "../layout/login-dialog";
 import { useJobs } from "@/hooks/use-jobs";
+import { useClientOnlyValue } from "@/hooks/use-client-only-value";
 
 type Job = ReturnType<typeof useJobs>['jobs'][0];
 
@@ -22,6 +23,7 @@ interface JobCardProps {
 export function JobCard({ job }: JobCardProps) {
   const { user } = useAuth();
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
+  const postedDate = useClientOnlyValue(formatDistanceToNow(new Date(job.postedDate), { addSuffix: true }));
 
   const handleApplyClick = (e: React.MouseEvent) => {
     if (!user) {
@@ -76,7 +78,7 @@ export function JobCard({ job }: JobCardProps) {
             </div>
             <div className="flex items-center gap-2 sm:col-span-3">
               <CalendarDays className="h-4 w-4 text-primary" />
-              <span>Posted {formatDistanceToNow(new Date(job.postedDate), { addSuffix: true })}</span>
+              <span>Posted {postedDate}</span>
             </div>
           </div>
         </CardContent>

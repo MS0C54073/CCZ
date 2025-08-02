@@ -7,6 +7,43 @@ import { Button } from '@/components/ui/button';
 import { Check, Mail, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import { useClientOnlyValue } from '@/hooks/use-client-only-value';
+
+function NotificationItem({ notification, onMarkAsRead, onDelete }: { notification: ReturnType<typeof useNotifications>['notifications'][0], onMarkAsRead: (id: string) => void, onDelete: (id: string) => void }) {
+  const formattedDate = useClientOnlyValue(format(new Date(notification.date), "PPP p"));
+
+  return (
+    <div
+      className={cn(
+        'flex items-start gap-4 p-4 rounded-lg border transition-colors',
+        notification.read ? 'bg-transparent text-muted-foreground' : 'bg-muted/50'
+      )}
+    >
+      <div className="flex-shrink-0 mt-1">
+          {notification.read ? <Check className="h-5 w-5 text-gray-400" /> : <Mail className="h-5 w-5 text-primary" />}
+      </div>
+      <div className="flex-grow">
+        <p className={cn('text-sm', !notification.read && 'font-semibold text-foreground')}>
+          {notification.message}
+        </p>
+        <p className="text-xs text-muted-foreground mt-1">
+          {formattedDate || 'Loading...'}
+        </p>
+      </div>
+      <div className="flex-shrink-0 flex items-center gap-2">
+        {!notification.read && (
+          <Button variant="ghost" size="sm" onClick={() => onMarkAsRead(notification.id)}>
+            Mark as Read
+          </Button>
+        )}
+        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onDelete(notification.id)}>
+          <Trash2 className="h-4 w-4 text-destructive" />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 
 export default function MessagesPage() {
   const { notifications, markAsRead, deleteNotification } = useNotifications();
@@ -27,35 +64,12 @@ export default function MessagesPage() {
         <CardContent>
           <div className="space-y-4">
             {notifications.map(notification => (
-              <div
+              <NotificationItem 
                 key={notification.id}
-                className={cn(
-                  'flex items-start gap-4 p-4 rounded-lg border transition-colors',
-                  notification.read ? 'bg-transparent text-muted-foreground' : 'bg-muted/50'
-                )}
-              >
-                <div className="flex-shrink-0 mt-1">
-                    {notification.read ? <Check className="h-5 w-5 text-gray-400" /> : <Mail className="h-5 w-5 text-primary" />}
-                </div>
-                <div className="flex-grow">
-                  <p className={cn('text-sm', !notification.read && 'font-semibold text-foreground')}>
-                    {notification.message}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {format(new Date(notification.date), "PPP p")}
-                  </p>
-                </div>
-                <div className="flex-shrink-0 flex items-center gap-2">
-                  {!notification.read && (
-                    <Button variant="ghost" size="sm" onClick={() => markAsRead(notification.id)}>
-                      Mark as Read
-                    </Button>
-                  )}
-                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => deleteNotification(notification.id)}>
-                    <Trash2 className="h-4 w-4 text-destructive" />
-                  </Button>
-                </div>
-              </div>
+                notification={notification} 
+                onMarkAsRead={markAsRead}
+                onDelete={deleteNotification}
+              />
             ))}
              {notifications.length === 0 && (
                 <div className="text-center py-12 text-muted-foreground">
