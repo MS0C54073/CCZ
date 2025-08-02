@@ -1,5 +1,5 @@
 # Title: I Was Tired of Rewriting My Resume for Every Job in Zambia—So I Started Building a Solution
-
+#
 If you’ve ever applied for a job in Zambia, you know the drill: find a promising opportunity, then spend hours editing your resume to fit the role. Whether it’s a position with an NGO in Lusaka or a tech opening in Kitwe, the process is tedious and repetitive.
 
 I decided to do something about it.
